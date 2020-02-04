@@ -1,0 +1,115 @@
+real L = 5.0;
+real xjump = 1.0;
+real rjump = xjump / L ; //Relative position of the bound
+
+
+border High(t=0, 1){x = t * L; y = 1; label=1;} //Haut du fleuve
+border Lowend(t=rjump, 1){x = t * L; y = 0; label=1;}  //Bas bas
+border Lowbeg(t=0, rjump){x = t * L; y = 0.5; label=1;}  //Bas haut
+border Leftup(t=0.5, 1){x = 0; y = t; label=1;}  //Gauche haut
+border Leftdown(t=0, 0.5){x = xjump; y = t; label=1;} // Gauche bas
+border Right(t=0, 1){x = L; y = t; label=2 ;}  //Droite
+
+int N = 20; //Mesh precision parameter
+
+mesh ThFleuve = buildmesh( High(-N*L) + Lowend(N*L) + Lowbeg(8*N) + Leftup(-N) + Leftdown(-8*N) + Right(N) );
+savemesh(ThFleuve, "meshFleuve.msh");
+plot(ThFleuve);
+
+
+// Finite elements space for velocity
+fespace Xh(ThFleuve, P2);
+Xh u1, u2;
+Xh v1, v2;
+Xh du1, du2;
+Xh u1p, u2p;
+
+
+// Finite elements space for pression
+fespace Mh(ThFleuve,P1);
+Mh p;
+Mh q;
+Mh dp;
+Mh pp;
+
+// Macro
+macro Grad(u1, u2) [dx(u1), dy(u1), dx(u2),dy(u2)] //
+macro UgradV(u1, u2, v1, v2) [	[u1,u2]'*[dx(v1),dy(v1)],
+								[u1,u2]'*[dx(v2),dy(v2)]	] //
+macro div(u1, u2) (dx(u1) + dy(u2)) //
+
+
+real nu = 1;
+real nufinal = 1/1000.;
+real cnu = 0.25;
+real eps = 1.0;
+
+// Initial condition
+u1 = x<1; 
+u2 = 0;
+
+// Viscosity loop
+while(1){
+    int n;
+    real err=0;
+    // Newton loop
+    for (n = 0; n < 15; n++){
+        // Newton
+        solve Oseen ([du1, du2, dp], [v1, v2, q])
+            = int2d(ThFleuve)(
+                    nu * (Grad(du1,du2)' * Grad(v1,v2))
+                + UgradV(du1,du2, u1, u2)' * [v1,v2]
+                + UgradV( u1, u2,du1,du2)' * [v1,v2]
+                - div(du1,du2) * q
+                - div(v1,v2) * dp
+                - 1e-8*dp*q //stabilization term
+            )
+            - int2d(ThFleuve) (
+                    nu * (Grad(u1,u2)' * Grad(v1,v2))
+                + UgradV(u1,u2, u1, u2)' * [v1,v2]
+                - div(u1,u2) * q
+                - div(v1,v2) * p
+            )
+            + on(1, du1=0, du2=0) ;
+
+        u1[] -= du1[];
+        u2[] -= du2[];
+        p[] -= dp[];
+
+        real Lu1=u1[].linfty, Lu2=u2[].linfty, Lp=p[].linfty;
+        err = du1[].linfty/Lu1 + du2[].linfty/Lu2 + dp[].linfty/Lp;
+
+        cout << n << " err = " << err << " " << eps << " rey = " << 1./nu << endl;
+        if(err < eps) break; //converge
+        if( n>3 && err > 10.) break; //blowup
+    }
+
+    if(err < eps){  //converge: decrease $\nu$ (more difficult)
+        // Plot
+        plot([u1, u2], p, wait=1, cmm=" rey = " + 1./nu , coef=0.3);
+
+        // Change nu
+        if( nu == nufinal) break;
+        if( n < 4) cnu = cnu^1.5; //fast converge => change faster
+        nu = max(nufinal, nu* cnu); //new viscosity
+
+        // Update
+        u1p = u1;
+        u2p = u2;
+        pp = p;
+    }
+    else{   //blowup: increase $\nu$ (more simple)
+        assert(cnu< 0.95); //the method finally blowup
+
+        // Recover nu
+        nu = nu/cnu;
+        cnu= cnu^(1./1.5); //no conv. => change lower
+        nu = nu* cnu; //new viscosity
+        cout << " restart nu = " << nu << " Rey = " << 1./nu << " (cnu = " << cnu << " ) \n";
+
+        // Recover a correct solution
+        u1 = u1p;
+        u2 = u2p;
+        p = pp;
+    }
+}

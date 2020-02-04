@@ -1,0 +1,28 @@
+border Gamma1(t=0., 2*pi){x=cos(t); y=sin(t);}
+mesh Th = buildmesh(Gamma1(20));
+
+// Fespace
+fespace Vh(Th, P1); //P1 conforming triangular FEM
+Vh phi, w, f=1;
+
+// Solve
+solve Laplace(phi, w)
+    = int2d(Th)(
+          dx(phi)*dx(w)
+        + dy(phi)*dy(w)
+    )
+    - int2d(Th)(
+          f*w
+    )
+    + on(Gamma1, phi=0)
+    ;
+cout<<phi[]<<endl;;
+
+// Plot
+plot([phi], wait=true, ps="membrane.eps"); //Plot phi
+plot(Th, wait=true, ps="membraneTh.eps"); //Plot Th
+
+
+
+// Save mesh
+savemesh(Th,"Th.msh");
