@@ -81,7 +81,8 @@ Matrix3d FiniteElementP1::Compute_Elementary_Matrix(const Triangle &T){
 			double A_pq_K = V1.transpose() * V2;
 			A_K(sommet_p, sommet_q) = 0.5*J_K.determinant()*A_pq_K;
 		}
-	}cout<<A_K<<endl<<endl;
+	}
+	cout<<A_K<<endl<<endl;
 	return(A_K);
 }
 
@@ -179,7 +180,6 @@ Vector3d FiniteElementP1::Compute_Elementary_Second_Member(const Triangle &T){
 	Vector3d B_K = Mass_Matrix_K * F;
 	return(B_K);
 }
-
 
 void FiniteElementP1::Compute_Second_Member(){
 	unsigned int N_T = mesh.get_nt();
