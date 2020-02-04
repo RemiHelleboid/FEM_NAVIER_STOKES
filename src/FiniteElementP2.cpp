@@ -17,6 +17,7 @@ using namespace Eigen;
 using namespace std;
 #define assertm(exp, msg) assert(((void)msg, exp))
 
+
 FiniteElementP2::FiniteElementP2(Mesh & mesh0, VectorXd B0):mesh(mesh0), B(B0){
 	mesh.build_half_bridges();
 	const int d = mesh.get_nv();
@@ -75,10 +76,8 @@ Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Matrix(const Triangle &
 			Vector2d V1 = J_prod * Grad_p;
 			Vector2d V2 =  Grad_q;
 			double alpha_k = det_JK * (1.0/3) * ( 2*int(sommet_p==sommet_q) - 0.5 );
-			//cout<<sommet_p<<"   "<<sommet_q<<"   "<<alpha_k<<endl;
-			//cout<<sommet_p<<"   "<<sommet_q<<"   "<<V1.dot(V2)<<endl;
-		double A_pq_K = alpha_k * V1.dot(V2);
-		A_K(sommet_p, sommet_q) += A_pq_K;
+			double A_pq_K = alpha_k * V1.dot(V2);
+			A_K(sommet_p, sommet_q) += A_pq_K;
 		}
 	}
 
@@ -125,13 +124,9 @@ Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Matrix(const Triangle &
 			double alpha_k_4 = det_JK * (2.0/3)*( 1 + int(sommet_j==sommet_l) );
 			double A_pq_K = alpha_k_1 * V1.dot(Grad_l) + alpha_k_2 * V1.dot(Grad_k)
 							+ alpha_k_3 * V2.dot(Grad_l) + alpha_k_4 * V2.dot(Grad_k);
-			cout<<"ici<<  "<<A_pq_K<<endl;
 			A_K(sommet_p, sommet_q) += A_pq_K;
-
 		}
 	}
-
-
 	cout<<A_K<<endl<<endl;
 	return(A_K);
 }
@@ -158,7 +153,6 @@ void FiniteElementP2::Compute_Rigidity_Matrix(){
 				int j = global_index_vertices[q];		//On récupère les indices globaux des sommets du triangle T_k
 				if(mesh.get_vertice(i).get_label()==1)  {A(i,j) = int(i==j); B(i) = 0;}
 				else{A(i,j) = A(i,j) + Elementary_matrix_K(p,q);}		//On update le coefficients i, j de la matrice de rigidité
-
 			}
 		}
 	}
@@ -183,7 +177,6 @@ Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Mass_Matrix(const Trian
 	return(Elementary_mass_matrix_K);
 }
 
-
 void FiniteElementP2::Compute_Mass_Matrix(){
 	//assertm(check_sizes(), "Sizes error :sizes doesn't match");
 	unsigned int N_T = mesh.get_nt();
@@ -199,11 +192,9 @@ void FiniteElementP2::Compute_Mass_Matrix(){
 				int j = global_index_vertices[q];		//On récupère les indices globaux des sommets du triangle T_k
 				if(mesh.get_vertice(i).get_label()==1)  {A(i,j) = int(i==j); B(i) = 0;}
 				else{M(i,j) = M(i,j) + Elementary_mass_matrix_K(p,q);}		//On update le coefficients i, j de la matrice de rigidité
-
 			}
 		}
 	}
-	//cout<<A<<endl;
 }
 
 
@@ -252,6 +243,4 @@ void FiniteElementP2::Export_Solution(string filename){
 }
 
 void FiniteElementP2::Compute_second_member(){
-
-
 	}
