@@ -1,0 +1,45 @@
+
+int c1 = 1;
+
+int N=8;
+
+border Gamma1(t=0, 1){x=t; y=1; label=c1;}
+border Gamma2(t=1.0, 0){x=t; y=0; label=c1;}
+border Gamma3(t=0, 1){x=0; y=t; label=c1;}
+border Gamma4(t=1.0, 0.){x=1; y=t; label=c1;}
+mesh Th = buildmesh(Gamma1(-N)+Gamma2(-N)+Gamma3(-N)+Gamma4(-N) );
+
+// Fespace
+fespace Vh(Th, P1); //P1 conforming triangular FEM
+Vh phi, w, f=1;
+
+// Solve
+solve Laplace(phi, w)
+    = int2d(Th)(
+          dx(phi)*dx(w)
+        + dy(phi)*dy(w)
+    )
+    - int2d(Th)(
+          f*w
+    )
+    + on(c1, phi=0)
+    ;
+    
+varf a(phi, w)
+    = int2d(Th)(
+          dx(phi)*dx(w)
+        + dy(phi)*dy(w)
+    )
+    ;
+
+matrix A = a(Vh,Vh);
+cout<<A<<endl;
+
+// Plot
+plot([phi], wait=true, ps="membrane.eps"); //Plot phi
+plot(Th, wait=true, ps="membraneTh.eps"); //Plot Th
+
+
+
+// Save mesh
+savemesh(Th,"Th.msh");
