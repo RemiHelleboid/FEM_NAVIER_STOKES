@@ -10,7 +10,6 @@
 
 using namespace std;
 
-
 double f2(double x, double y){
 	return(pow(3-x,2)+4*pow(0.5-y,2)-x*y);
 }
