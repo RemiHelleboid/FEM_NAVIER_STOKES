@@ -9,6 +9,7 @@
 #include <Eigen/Dense>
 #include <map>
 #include <Eigen/Dense>
+
 #include "FiniteElementP1.hpp"
 
 
@@ -20,7 +21,8 @@ using namespace std;
 
 FiniteElementP1::FiniteElementP1(const Mesh &mesh0, VectorXd B0):mesh(mesh0), B(B0){
 	int Number_vertices = mesh.get_nv();
-	A.resize(Number_vertices, Number_vertices);
+	A = SparseMatrix<double>(Number_vertices, Number_vertices);
+	A.reserve(VectorXi::Constant(Number_vertices, 12));
 	M.resize(Number_vertices, Number_vertices);
 	U.resize(Number_vertices);
 }
@@ -81,7 +83,8 @@ Matrix3d FiniteElementP1::Compute_Elementary_Matrix(const Triangle &T){
 			double A_pq_K = V1.transpose() * V2;
 			A_K(sommet_p, sommet_q) = 0.5*J_K.determinant()*A_pq_K;
 		}
-	}cout<<A_K<<endl<<endl;
+	}
+	cout<<A_K<<endl<<endl;
 	return(A_K);
 }
 
@@ -133,7 +136,7 @@ Matrix3d FiniteElementP1::Compute_Elementary_Mass_Matrix(const Triangle &T){
 }
 
 void FiniteElementP1::Compute_Rigidity_Matrix(){
-	assertm(check_sizes(), "Sizes error :sizes doesn't match");
+	//assertm(check_sizes(), "Sizes error :sizes doesn't match");
 	unsigned int N_T = mesh.get_nt();
 	for(unsigned int k = 0; k<N_T; k++){
 
@@ -145,11 +148,15 @@ void FiniteElementP1::Compute_Rigidity_Matrix(){
 			for(int q=0; q<3; q++){
 				int i = global_index_vertices[p];		//On récupère les indices globaux des sommets du triangle T_k
 				int j = global_index_vertices[q];		//On récupère les indices globaux des sommets du triangle T_k
-				if(mesh.get_vertice(i).get_label()==1)  {A(i,j) = int(i==j); B(i) = 0;}
-				else{A(i,j) = A(i,j) + Elementary_matrix_K(p,q);}		//On update le coefficients i, j de la matrice de rigidité
+				cout<<i<<"   "<<j<<endl;
+				if(mesh.get_vertice(i).get_label()==1)  {A.coeffRef(i, j) = int(i==j); B(i) = 0;}
+				else{A.coeffRef(i, j) += Elementary_matrix_K(p,q);}		//On update le coefficients i, j de la matrice de rigidité
 			}
 		}
 	}
+	A.makeCompressed();
+	cout<<A<<endl;
+
 }
 
 void FiniteElementP1::Compute_Mass_Matrix(){
@@ -180,7 +187,6 @@ Vector3d FiniteElementP1::Compute_Elementary_Second_Member(const Triangle &T){
 	return(B_K);
 }
 
-
 void FiniteElementP1::Compute_Second_Member(){
 	unsigned int N_T = mesh.get_nt();
 	for(unsigned int k = 0; k<N_T; k++){
@@ -197,15 +203,22 @@ void FiniteElementP1::Compute_Second_Member(){
 }
 
 void FiniteElementP1::Direct_Method_Solve_Systeme(string Solver_type){
-	map<string, int> map_solver = {{"LU", 1}, {"CHOLESKY",2}};
+	map<string, int> map_solver = {{"LU", 1}, {"CHOLESKY",2}, {"ITERATIVE", 3}};
 	assertm( 1, "Wrong Direct Method Solver Name" );
 	int solver_index = map_solver[Solver_type];
 	switch(solver_index){
-		case 1:{ U = A.fullPivLu().solve(B);
+		case 1:{ SparseLU<SparseMatrix<double>, COLAMDOrdering<int> >   solver;
+				 solver.analyzePattern(A);
+				 solver.factorize(A);
+				 U = solver.solve(B);
 				 break; }
 		case 2 :{ LLT<MatrixXd> Decomposition(A);
 				  Decomposition.solve(B);
 				  break; }
+		case 3 :{ BiCGSTAB<SparseMatrix<double> > solver;
+		  				  solver.compute(A);
+						  U = solver.solve(B);
+		  				  break; }
 				}
 	A_is_modified = true;
 }
