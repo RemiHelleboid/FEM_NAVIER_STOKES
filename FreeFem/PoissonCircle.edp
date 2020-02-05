@@ -1,5 +1,5 @@
 border Gamma1(t=0., 2*pi){x=cos(t); y=sin(t);}
-mesh Th = buildmesh(Gamma1(20));
+mesh Th = buildmesh(Gamma1(30));
 
 // Fespace
 fespace Vh(Th, P1); //P1 conforming triangular FEM
