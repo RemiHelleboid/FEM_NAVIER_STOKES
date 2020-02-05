@@ -31,8 +31,8 @@ class Vertice{
         double y()const{return(coordinates[1]);}
         int get_index()const{return(index);}
         int get_label()const{return(label);}
-        int & set_label(int new_label){return(label);}
-        int & set_index(int new_index){return(index);}
+        void set_label(int new_label){label = new_label;}
+        void set_index(int new_index){index = new_index;}
         Vertice & operator=(const Vertice &) = default;
         bool operator==(const Vertice & V0)const{return(V0.coordinates==coordinates);};
 };
@@ -40,7 +40,7 @@ class Vertice{
 class Edge{
     private:
         int label;
-        vector<Vertice> V;		
+        vector<Vertice> V;
     public:
         Edge(){label = 0; V = vector<Vertice>(2);}
         Edge(int l, vector<Vertice> V0);
@@ -51,7 +51,7 @@ class Edge{
         vector<double> perp();
         vector<Vertice> get_vertices()const{return(V);};
         int get_label()const{return(label);};
-        Vertice Compute_middle();		//retourne le milieu du segment        
+        Vertice Compute_middle();		//retourne le milieu du segment
 };
 
 class Triangle{
@@ -60,11 +60,12 @@ class Triangle{
         vector<Vertice> V;
         vector<Vertice>	V_half;
     public:
-        Triangle(){label=0; V = vector<Vertice>(3);}; 
+        Triangle(){label=0; V = vector<Vertice>(3);};
         Triangle(int l, vector<Vertice> V0):label(l), V(V0){};
         Triangle(const Triangle &T):label(T.label), V(T.V), V_half(T.V_half){};
         Triangle& operator=(const Triangle &) = default;
-        void Add_Half_Vertices(vector<Vertice> V_half_add){V_half = V_half_add;};
+//        void Add_Half_Vertices(vector<Vertice> V_half_add){V_half = V_half_add;};
+        void Add_Half_Vertices(Vertice V_half_add){V_half.push_back(V_half_add);};
         double area()const;
         Edge edge_opp(int i);
         vector<double> GradLambda(int i);       // H(i) dans le cours ???
