@@ -47,9 +47,11 @@ int main(){
 	M0.show_parameters();
 	VectorXd Second_member = Full_Ones_Vect(M0.get_nv());
 	FiniteElementP2 FEP2(M0, Second_member);
+	FEP2.Compute_Second_Member();
 	FEP2.Compute_Rigidity_Matrix();
 	FEP2.Direct_Method_Solve_Systeme("LU");
 	FEP2.Export_Solution("SolutionP22.data");
+
 
 
 

@@ -116,21 +116,36 @@ void Mesh::build_edges(){
 void Mesh::build_half_bridges(){
 	for(unsigned int k=0; k<n_t; k++){		//boucle sur les triangles
 		Triangle T_k = Triangles[k];
-		vector<Vertice> V_half_Tk(3);
+		vector<Vertice> V_half_Tk;
 		for(int i=0; i<3; i++){				//boucle sur les sommet
 			Edge E_opp_i = T_k.edge_opp(i);
 			Vertice V_half_i = E_opp_i.Compute_middle();
 			int label_half_i = E_opp_i.get_label();
-			int index_half_i = n_v + 1;
+
 			V_half_i.set_label(label_half_i);
-			V_half_i.set_index(index_half_i);
-			V_half_Tk[i] = V_half_i;
 			if (!count(Vertices.begin(), Vertices.end(), V_half_i)){
+				V_half_i.set_index(n_v);
+				int new_label = int( E_opp_i.get_vertices()[0].get_label() == 1 && E_opp_i.get_vertices()[1].get_label()==1 );
+				V_half_i.set_label(new_label);
 				Vertices.push_back(V_half_i);
+				V_half_Tk.push_back(V_half_i);
+				T_k.Add_Half_Vertices(V_half_i);
 				n_v = n_v + 1;
+
 			}
+			else{
+				auto it = find(Vertices.begin(), Vertices.end(), V_half_i);
+				int index_V = std::distance(Vertices.begin(), it);
+				int new_index = Vertices[index_V].get_index();
+				int new_label = Vertices[index_V].get_label();
+				V_half_i.set_index(new_index);
+				V_half_i.set_label(new_label);
+				V_half_Tk.push_back(V_half_i);
+				T_k.Add_Half_Vertices(V_half_i);
+			}
+		set_triangle(k, T_k);
 		}
-		T_k.Add_Half_Vertices(V_half_Tk);
 	}
 	cout<<"n__________v  "<<n_v<<endl;
+
 }

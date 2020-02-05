@@ -24,7 +24,7 @@ class Mesh{
 		vector<Triangle> Triangles;
 		vector<Edge> BoundEdges;
 		vector<Edge> AllEdges;
-		
+
 	public:
 		Mesh(string filename);
 		void show_parameters();
@@ -36,6 +36,7 @@ class Mesh{
 		int get_nbe()const{return(n_s);};
 		int get_nae()const{return(n_e);};
 		Triangle get_triangle(int k)const{return(Triangles[k]);};	//retourne le k-ieme triangle
+		void set_triangle(int k, Triangle T_new){Triangles[k] = T_new;};	//retourne le k-ieme triangle
 		Edge get_edge(int k)const{return(AllEdges[k]);};	//retourne le k-ieme triangle
 		Vertice get_vertice(int k)const{return(Vertices[k]);};
 };

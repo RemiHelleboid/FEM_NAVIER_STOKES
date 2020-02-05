@@ -20,6 +20,7 @@ using namespace std;
 
 FiniteElementP2::FiniteElementP2(Mesh & mesh0, VectorXd B0):mesh(mesh0), B(B0){
 	mesh.build_half_bridges();
+	mesh.show_parameters();
 	const int d = mesh.get_nv();
 	A = MatrixXd::Constant(d, d, 0);
 	M = MatrixXd::Constant(d, d, 0);
@@ -103,7 +104,6 @@ Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Matrix(const Triangle &
 			double A_pq_K = alpha_k_1 * V1.dot(Grad_q) + alpha_k_2 * V1.dot(Grad_p);
 			A_K(sommet_i, sommet_k) += A_pq_K;
 			A_K(sommet_k, sommet_i) += A_pq_K;
-			cout<<int(sommet_i==sommet_p)<<endl;
 		}
 	}
 	for(int sommet_p=3; sommet_p<6; sommet_p++){
@@ -127,7 +127,7 @@ Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Matrix(const Triangle &
 			A_K(sommet_p, sommet_q) += A_pq_K;
 		}
 	}
-	cout<<A_K<<endl<<endl;
+	//cout<<A_K<<endl<<endl;
 	return(A_K);
 }
 
@@ -146,16 +146,18 @@ void FiniteElementP2::Compute_Rigidity_Matrix(){
 		Triangle T_k = mesh.get_triangle(k);
 		vector<int> global_index_vertices = T_k.get_vertices_index();
 		Matrix<double, 6, 6> Elementary_matrix_K = Compute_Elementary_Matrix(T_k);		//calcul de la matrice élémentaire (3x3)
+		cout<<Elementary_matrix_K<<endl<<endl;
 
 		for(int p=0; p<6; p++){
 			for(int q=0; q<6; q++){
 				int i = global_index_vertices[p];		//On récupère les indices globaux des sommets du triangle T_k
 				int j = global_index_vertices[q];		//On récupère les indices globaux des sommets du triangle T_k
-				if(mesh.get_vertice(i).get_label()==1)  {A(i,j) = int(i==j); B(i) = 0;}
+				if(mesh.get_vertice(i).get_label()==1)  {A(i,j) = int(i==j); B(i) = 0;cout<<i<<j<<endl;}
 				else{A(i,j) = A(i,j) + Elementary_matrix_K(p,q);}		//On update le coefficients i, j de la matrice de rigidité
 			}
 		}
 	}
+	cout<<A<<endl;
 }
 
 inline double kron(int i, int k){
@@ -165,13 +167,96 @@ inline double kron(int i, int k){
 	return(delta);
 }
 
+//determine l'intégrande entre l⁴, l²*l², l³*l, l*l²*l
+inline int Compute_Integral_type(int i, int j, int k ,int l){
+	int integrande_type = -1;
+	if(i==j && j==k && k==l){
+		integrande_type = 1;
+	}
+	else if( (i==j && j==k && k!=l) || (i==j && j==l && l!=k)
+			||(i==k && k==l && l!=j) ||(j==k && k==l && l!=i) ){
+		integrande_type = 2;
+
+	}
+	else if((i==j && k==l && j!=k) || (i==k && j==l && l!=k) || (i==l && k==j && l!=k)){
+		integrande_type = 3;
+
+	}
+	else if((i==j && i!=l && i!=k) || (i==k && i!=l && i!=j) || (i==l && i!=j && i!=k)
+			|| (j==k && i!=j && k!=l)  || (j==l && j!=k && i!=l)){
+		integrande_type = 4;
+	}
+	if(integrande_type==-1){cout<<"Error no integrande type match for (i, j, k, l) = "<<i<<" "<<j<<" "<<k<<" "<<l<<endl;}
+	return(integrande_type);
+}
+
+
+//Calcul de l'intégral des coordonée bary_centriques sur le triangle de ref  pour p, q des milieux d'arretes
+inline double Compute_Integral(int sommet_p, int sommet_q){
+	double coeff = 0;
+
+	vector<int> Vertice_4({0, 1});		//Meaning : Le sommet 4 est le milei du coté [0, 1]
+	vector<int> Vertice_5({1, 2});
+	vector<int> Vertice_6({0, 2});
+
+	map<int, vector<int>> Midpoint_to_extremities;		//associe un milieu de segment avec les extremité du segment
+	Midpoint_to_extremities[3] = Vertice_4;
+	Midpoint_to_extremities[4] = Vertice_5;
+	Midpoint_to_extremities[5] = Vertice_6;
+	int sommet_i = Midpoint_to_extremities[sommet_p][0];
+	int sommet_j = Midpoint_to_extremities[sommet_p][1];
+	int sommet_k = Midpoint_to_extremities[sommet_q][0];
+	int sommet_l = Midpoint_to_extremities[sommet_q][1];
+
+	int type_integrande = Compute_Integral_type(sommet_i, sommet_j, sommet_k, sommet_l);
+
+	if (type_integrande==3){coeff = 4.0/45;};
+	if (type_integrande==4){coeff = 2.0/45;};
+
+	return(coeff);
+}
+
+
+
 Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Mass_Matrix(const Triangle &T){
 	double det_JK = Compute_Jacobi_Matrix(T).determinant();
 	Matrix<double, 6, 6> Elementary_mass_matrix_K = Matrix<double, 6, 6>::Zero();
+
 	for(int sommet_p=0; sommet_p<3; sommet_p++){
 		for(int sommet_q=0; sommet_q<3; sommet_q++){
 			double M_p_q = 0.5 * det_JK * (1.0/60.0)*(13 - 11 * kron(sommet_p, sommet_q));
 			Elementary_mass_matrix_K(sommet_p, sommet_q) += M_p_q;
+		}
+	}
+	for(int sommet_p=3; sommet_p<6; sommet_p++){
+		for(int sommet_q=3; sommet_q<6; sommet_q++){
+			double M_p_q = det_JK * Compute_Integral(sommet_p, sommet_q);
+			Elementary_mass_matrix_K(sommet_p, sommet_q) += M_p_q;
+		}
+	}
+	vector<int> Vertice_4({0, 1});		//Meaning : Le sommet 4 est le milei du coté [0, 1]
+	vector<int> Vertice_5({1, 2});
+	vector<int> Vertice_6({0, 2});
+
+	map<int, vector<int>> Midpoint_to_extremities;		//associe un milieu de segment avec les extremité du segment
+	Midpoint_to_extremities[3] = Vertice_4;
+	Midpoint_to_extremities[4] = Vertice_5;
+	Midpoint_to_extremities[5] = Vertice_6;
+
+	for(int sommet_i=0; sommet_i<3; sommet_i++){
+		for(int sommet_p=3; sommet_p<6; sommet_p++){
+			double M_p_q = 0;
+			int sommet_l = Midpoint_to_extremities[sommet_p][0];
+			int sommet_k = Midpoint_to_extremities[sommet_p][1];
+			if (sommet_i == sommet_l || sommet_i==sommet_k){
+				M_p_q = det_JK * 1 ;
+			}
+			else if(sommet_i!=sommet_l && sommet_i!=sommet_k){
+				M_p_q = det_JK * (29.0/90);
+			}
+			else{cout<<"ERROR CASE IN MATRIX ELEMENTARY MASS"<<endl;}
+			Elementary_mass_matrix_K(sommet_i, sommet_p) = M_p_q;
+			Elementary_mass_matrix_K(sommet_p, sommet_i) = M_p_q;
 		}
 	}
 	return(Elementary_mass_matrix_K);
@@ -197,6 +282,29 @@ void FiniteElementP2::Compute_Mass_Matrix(){
 	}
 }
 
+Vector6d FiniteElementP2::Compute_Elementary_Second_Member(const Triangle &T){
+	Matrix<double, 6, 6> Mass_Matrix_K = Compute_Elementary_Mass_Matrix(T);
+	Vector6d F;
+	F << 1, 1, 1, 1, 1, 1;
+	Vector6d B_K = Mass_Matrix_K * F;
+	return(B_K);
+}
+
+void FiniteElementP2::Compute_Second_Member(){
+	unsigned int N_T = mesh.get_nt();
+	for(unsigned int k = 0; k<N_T; k++){
+
+		Triangle T_k = mesh.get_triangle(k);
+		vector<int> global_index_vertices = T_k.get_vertices_index();
+		Vector6d Elementary_Vector_K = Compute_Elementary_Second_Member(T_k);		//calcul de la matrice élémentaire (3x3)
+
+		for(int sommet_p=0; sommet_p<6; sommet_p++){
+
+			int i = global_index_vertices[sommet_p]  ;
+			B(i) = B(i) + Elementary_Vector_K(sommet_p);	//On update le coefficients i
+		}
+	}
+}
 
 void FiniteElementP2::Direct_Method_Solve_Systeme(string Solver_type){
 	map<string, int> map_solver = {{"LU", 1}, {"CHOLESKY",2}};
@@ -230,17 +338,11 @@ void FiniteElementP2::Display_Linear_Syst(){
 
 void FiniteElementP2::Export_Solution(string filename){
 	ofstream F(filename);
-	int Nb_edge = mesh.get_nae();
-	for(int k=0; k<Nb_edge; k++){
-		Edge E_k = mesh.get_edge(k);
-		vector<Vertice> Vk = E_k.get_vertices();
-		for(int p=0; p<2; p++){
-			int idx = Vk[p].get_index();
-			F << Vk[p].x() <<"\t"<< Vk[p].y()<<"\t" <<U[idx]<<endl;
+	int Nb_vertice = mesh.get_nv();
+	for(int k=0; k<Nb_vertice; k++){
+		Vertice V_k = mesh.get_vertice(k);
+			int idx = V_k.get_index();
+			F << V_k.x() <<"\t"<< V_k.y()<<"\t" <<U[idx]<<endl;
 		}
 	F<<endl;
-	}
-}
-
-void FiniteElementP2::Compute_second_member(){
 	}

@@ -13,6 +13,9 @@
 using namespace Eigen;
 using namespace std;
 
+typedef Matrix<double, 6, 1> Vector6d;
+
+
 class FiniteElementP2{
 	private:
 		Mesh mesh;	//Maillage
@@ -37,10 +40,11 @@ class FiniteElementP2{
 		Matrix<double, 6, 6> Compute_Elementary_Matrix(const Triangle &T);
 		Matrix<double, 6, 6> Compute_Elementary_Mass_Matrix(const Triangle &T);
 		Matrix3d Compute_Elementary_Matrix_Formal(Triangle T);
+		Vector6d  Compute_Elementary_Second_Member(const Triangle &T);
+		void Compute_Second_Member();
 		void Compute_Rigidity_Matrix();
 		void Compute_Mass_Matrix();
 		void Compute_Dirichlet_Bound_Condition();	//To do or not ?
-		void Compute_second_member();		//If needed
 		void Direct_Method_Solve_Systeme(string Solver_type);
 		double Compute_l2_error();
 		bool check_sizes();
