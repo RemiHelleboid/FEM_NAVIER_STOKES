@@ -7,7 +7,7 @@ CC      := g++
 VPATH	:=
 LDFLAGS :=
 LIBRARY :=
-CFLAGS  := -std=c++17 -Wall -pedantic -I$(INCLDIR) -I /usr/include/eigen3 -g -ggdb
+CFLAGS  := -std=c++17 -Wall -pedantic -I$(INCLDIR) -I eigen3 -g -ggdb
 
 #Source and object files (automatic)
 SRCS = $(wildcard $(SRCDIR)/*.cpp)
