@@ -9,6 +9,7 @@
 #include <functional>
 #include <Eigen/Dense>
 #include "Mesh.hpp"
+#include <Eigen/Sparse>	
 
 using namespace Eigen;
 using namespace std;
@@ -16,7 +17,7 @@ using namespace std;
 class FiniteElementP1{
 	protected:
 		const Mesh mesh;	//Maillage
-		MatrixXd A;			//Matrice de rigidité
+		SparseMatrix<double> A;			//Matrice de rigidité
 		MatrixXd M;			//Matrice de mass
 		VectorXd B;			//second membre
 		VectorXd U;			//Vecteur solution
@@ -49,5 +50,5 @@ class FiniteElementP1{
 		void Display_Linear_Syst();
 		void Display_Solution(){cout<<"Solution : \n"<<U<<endl;cout<<"MAX : \n"<<U.maxCoeff()<<endl;};
 		void Export_Solution(string filename);
-		
+
 	};
