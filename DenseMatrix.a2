@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="1659145727">
+        <error id="constParameter" severity="style" msg="Parameter &apos;M&apos; can be declared with const" verbose="Parameter &apos;M&apos; can be declared with const" cwe="398">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/DenseMatrix.cpp" line="10" column="50"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;coef&apos; is assigned a value that is never used." verbose="Variable &apos;coef&apos; is assigned a value that is never used." cwe="563">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/DenseMatrix.cpp" line="89" column="13"/>
+            <symbol>coef</symbol>
+        </error>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="FrobeniusNorm" lineNumber="87"/>
+    <functiondecl functionName="TestResoLine" lineNumber="98"/>
+    <functioncall functionName="A"/>
+    <functioncall functionName="C"/>
+    <functioncall functionName="DenseMatrix"/>
+    <functioncall functionName="F"/>
+    <functioncall functionName="N"/>
+    <functioncall functionName="ResoLU"/>
+    <functioncall functionName="S"/>
+    <functioncall functionName="abs"/>
+    <functioncall functionName="arg"/>
+    <functioncall functionName="b"/>
+    <functioncall functionName="c"/>
+    <functioncall functionName="col"/>
+    <functioncall functionName="d"/>
+    <functioncall functionName="double"/>
+    <functioncall functionName="exp"/>
+    <functioncall functionName="filename"/>
+    <functioncall functionName="for"/>
+    <functioncall functionName="getline"/>
+    <functioncall functionName="i"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="j"/>
+    <functioncall functionName="k"/>
+    <functioncall functionName="l"/>
+    <functioncall functionName="ligne"/>
+    <functioncall functionName="low"/>
+    <functioncall functionName="n"/>
+    <functioncall functionName="operator()"/>
+    <functioncall functionName="resize"/>
+    <functioncall functionName="return"/>
+    <functioncall functionName="s"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="sqrt"/>
+    <functioncall functionName="up"/>
+  </FileInfo>
+</analyzerinfo>

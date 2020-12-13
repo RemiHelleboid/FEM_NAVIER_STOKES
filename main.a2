@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="3386219235">
+        <error id="unreadVariable" severity="style" msg="Variable &apos;T&apos; is assigned a value that is never used." verbose="Variable &apos;T&apos; is assigned a value that is never used." cwe="563">
+            <location file="/home/remi/Desktop/Master 1/ProjectResol/code/main.cpp" line="23" column="11"/>
+            <symbol>T</symbol>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;SOL1&apos; is assigned a value that is never used." verbose="Variable &apos;SOL1&apos; is assigned a value that is never used." cwe="563">
+            <location file="/home/remi/Desktop/Master 1/ProjectResol/code/main.cpp" line="31" column="14"/>
+            <symbol>SOL1</symbol>
+        </error>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="main" lineNumber="14"/>
+    <functioncall functionName="B"/>
+    <functioncall functionName="C"/>
+    <functioncall functionName="LU_Solver"/>
+    <functioncall functionName="Laplacian"/>
+    <functioncall functionName="N"/>
+    <functioncall functionName="Rand_Unif_int"/>
+    <functioncall functionName="S1"/>
+    <functioncall functionName="V"/>
+    <functioncall functionName="get_solution"/>
+    <functioncall functionName="return"/>
+  </FileInfo>
+</analyzerinfo>

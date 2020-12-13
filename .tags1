@@ -1,0 +1,16 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Vector6d	/home/remi/fem_navstokes/src/Quadratures.cpp	/^typedef Matrix<double, 6, 1> Vector6d;$/;"	typedef	line:14	file:
+Vector3d	/home/remi/fem_navstokes/src/Quadratures.cpp	/^typedef Matrix<double, 3, 1> Vector3d;$/;"	typedef	line:15	file:
+Eval_Local_Shape_Func_Triangle_Ref_P1	/home/remi/fem_navstokes/src/Quadratures.cpp	/^Vector3d Eval_Local_Shape_Func_Triangle_Ref_P1(double x, double y){$/;"	function	line:18	signature:(double x, double y)
+Eval_Local_Shape_Grad_Func_Triangle_Ref_P1	/home/remi/fem_navstokes/src/Quadratures.cpp	/^vector<Vector2d> Eval_Local_Shape_Grad_Func_Triangle_Ref_P1(const Triangle &T, double x, double y){$/;"	function	line:28	signature:(const Triangle &T, double x, double y)
+Eval_Quadrature_Stiff_P1	/home/remi/fem_navstokes/src/Quadratures.cpp	/^double Eval_Quadrature_Stiff_P1(const Triangle &T, int i, int j){$/;"	function	line:36	signature:(const Triangle &T, int i, int j)
+Eval_Local_Shape_Func_Triangle_Ref_P2	/home/remi/fem_navstokes/src/Quadratures.cpp	/^Vector6d Eval_Local_Shape_Func_Triangle_Ref_P2(double x, double y){$/;"	function	line:54	signature:(double x, double y)
+Eval_Grad_Local_Shape_Func_Triangle_P2	/home/remi/fem_navstokes/src/Quadratures.cpp	/^std::vector<Vector2d> Eval_Grad_Local_Shape_Func_Triangle_P2(const Triangle &T, double x, double y){$/;"	function	line:70	signature:(const Triangle &T, double x, double y)
+Eval_Grad_Local_Shape_Func_Triangle_REF_P2	/home/remi/fem_navstokes/src/Quadratures.cpp	/^std::vector<Vector2d> Eval_Grad_Local_Shape_Func_Triangle_REF_P2(const Triangle &T, double lambda1, double lambda2){$/;"	function	line:88	signature:(const Triangle &T, double lambda1, double lambda2)
+Eval_Quadrature_Stiff_P2	/home/remi/fem_navstokes/src/Quadratures.cpp	/^double Eval_Quadrature_Stiff_P2(const Triangle &T, int i, int j){$/;"	function	line:111	signature:(const Triangle &T, int i, int j)
+Eval_Quadrature_Mass_P2	/home/remi/fem_navstokes/src/Quadratures.cpp	/^double Eval_Quadrature_Mass_P2(Triangle &T, int i, int j){$/;"	function	line:124	signature:(Triangle &T, int i, int j)

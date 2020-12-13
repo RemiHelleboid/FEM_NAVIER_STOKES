@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="3774863138">
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="writeMatrix_" lineNumber="36"/>
+    <functiondecl functionName="writeVector_" lineNumber="53"/>
+    <functiondecl functionName="readLine" lineNumber="67"/>
+    <functiondecl functionName="readMatrix" lineNumber="85"/>
+    <functiondecl functionName="readMatrix" lineNumber="101"/>
+    <functiondecl functionName="writeMatrix" lineNumber="135"/>
+    <functiondecl functionName="writeMatrix" lineNumber="141"/>
+    <functiondecl functionName="writeMatrix" lineNumber="148"/>
+    <functiondecl functionName="writeMatrix" lineNumber="153"/>
+    <functioncall functionName="A"/>
+    <functioncall functionName="M"/>
+    <functioncall functionName="V"/>
+    <functioncall functionName="begin"/>
+    <functioncall functionName="c_str"/>
+    <functioncall functionName="colN"/>
+    <functioncall functionName="cols"/>
+    <functioncall functionName="convertFV2Mat"/>
+    <functioncall functionName="eigenValues"/>
+    <functioncall functionName="eigenVectors"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="erase"/>
+    <functioncall functionName="fclose"/>
+    <functioncall functionName="fn"/>
+    <functioncall functionName="fopen"/>
+    <functioncall functionName="for"/>
+    <functioncall functionName="fprintf"/>
+    <functioncall functionName="fv"/>
+    <functioncall functionName="fvs"/>
+    <functioncall functionName="getline"/>
+    <functioncall functionName="i"/>
+    <functioncall functionName="id"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="ifs"/>
+    <functioncall functionName="is"/>
+    <functioncall functionName="j"/>
+    <functioncall functionName="line"/>
+    <functioncall functionName="make_pair"/>
+    <functioncall functionName="matrixU"/>
+    <functioncall functionName="matrixV"/>
+    <functioncall functionName="min"/>
+    <functioncall functionName="outfp"/>
+    <functioncall functionName="principalComponents"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="readLine"/>
+    <functioncall functionName="resize"/>
+    <functioncall functionName="return"/>
+    <functioncall functionName="rowN"/>
+    <functioncall functionName="rows"/>
+    <functioncall functionName="scores"/>
+    <functioncall functionName="singularValues"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="sort"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="unique"/>
+    <functioncall functionName="v"/>
+    <functioncall functionName="val"/>
+    <functioncall functionName="while"/>
+    <functioncall functionName="writeMatrix_"/>
+    <functioncall functionName="writeVector_"/>
+  </FileInfo>
+</analyzerinfo>

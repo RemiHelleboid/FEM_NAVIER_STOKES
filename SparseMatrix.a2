@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="3891294644">
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="FrobeniusNorm" lineNumber="45"/>
+    <functiondecl functionName="MVProd" lineNumber="65"/>
+    <functioncall functionName="C"/>
+    <functioncall functionName="M"/>
+    <functioncall functionName="N"/>
+    <functioncall functionName="NN"/>
+    <functioncall functionName="NewCol"/>
+    <functioncall functionName="NewRow"/>
+    <functioncall functionName="NewVal"/>
+    <functioncall functionName="P"/>
+    <functioncall functionName="R"/>
+    <functioncall functionName="SparseMatrix"/>
+    <functioncall functionName="abs"/>
+    <functioncall functionName="arg"/>
+    <functioncall functionName="begin"/>
+    <functioncall functionName="break"/>
+    <functioncall functionName="colonne"/>
+    <functioncall functionName="double"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="for"/>
+    <functioncall functionName="get_col"/>
+    <functioncall functionName="get_row"/>
+    <functioncall functionName="get_val"/>
+    <functioncall functionName="i"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="insert"/>
+    <functioncall functionName="int"/>
+    <functioncall functionName="j"/>
+    <functioncall functionName="k"/>
+    <functioncall functionName="ligne"/>
+    <functioncall functionName="pos0"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="return"/>
+    <functioncall functionName="s"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="sqrt"/>
+    <functioncall functionName="taille"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="value"/>
+    <functioncall functionName="while"/>
+  </FileInfo>
+</analyzerinfo>

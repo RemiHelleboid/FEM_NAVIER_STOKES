@@ -1,0 +1,28 @@
+include "getARGV.idp"
+string sTh=getARGV("-Th","Th.msh");
+int nn=5;
+mesh Th(sTh);
+fespace Vh(Th,P2);
+fespace Ph(Th,P1);
+Vh uf1,uf2;
+Ph pf;
+{
+	ifstream f("u1u2p1.txt");
+	for(int k=0; k<Th.nt;++k)
+	{
+	for(int i=0; i<Vh.ndofK; ++i)
+	f >> uf1[][Vh(k,i)];
+	for(int i=0; i<Vh.ndofK; ++i)
+	f >> uf2[][Vh(k,i)];
+	for(int i=0; i<Ph.ndofK; ++i)
+	f >> pf[][Ph(k,i)];
+}
+}
+
+real outflux=1;
+plot([uf1,uf2],fill=0,cmm="uf",wait=1);
+//plot(uf1,fill=0,cmm="uf",wait=1);
+plot(pf,fill=1,cmm="pf",wait=1);
+
+outflux = int1d(Th)( [uf1,uf2]'*[N.x,N.y]) ;
+cout << " Difference flux = "<< outflux << endl;

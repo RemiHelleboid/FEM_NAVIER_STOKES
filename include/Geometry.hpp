@@ -9,6 +9,9 @@
 #include <functional>
 #include "Geometry.hpp"
 
+#include <Eigen/Dense>
+
+using namespace Eigen;
 using namespace std;
 
 typedef vector<double> vect;
@@ -51,6 +54,7 @@ class Edge{
         vector<double> perp();
         vector<Vertice> get_vertices()const{return(V);};
         int get_label()const{return(label);};
+        void set_label(int new_label){label = new_label;};
         Vertice Compute_middle();		//retourne le milieu du segment
 };
 
@@ -59,17 +63,27 @@ class Triangle{
         int label;
         vector<Vertice> V;
         vector<Vertice>	V_half;
+        Vertice BarryCenter;
     public:
         Triangle(){label=0; V = vector<Vertice>(3);};
         Triangle(int l, vector<Vertice> V0):label(l), V(V0){};
-        Triangle(const Triangle &T):label(T.label), V(T.V), V_half(T.V_half){};
+        Triangle(const Triangle &T):label(T.label), V(T.V), V_half(T.V_half), BarryCenter(T.BarryCenter){};
         Triangle& operator=(const Triangle &) = default;
-//        void Add_Half_Vertices(vector<Vertice> V_half_add){V_half = V_half_add;};
         void Add_Half_Vertices(Vertice V_half_add){V_half.push_back(V_half_add);};
         double area()const;
-        Edge edge_opp(int i);
-        vector<double> GradLambda(int i);       // H(i) dans le cours ???
+        double signed_area()const;
+        Edge edge_opp(int i)const;
+        Vector2d GradLambda(int i)const;       // H(i) dans le cours ???
+        Vector2d GradLambdaP2(int i, double lambda1, double lambda2)const;       // H(i) dans le cours ???
         vector<int> get_vertices_index();		//renvoie les numéros i,j,k,ij, ik, jk  global des sommets du triangle
         vector<Vertice> get_vertices()const{return(V);}
-        void Display();
+        vector<Vertice> get_vertices_middle()const{return(V_half);}
+        Matrix2d get_Jacobian_mat()const;
+        double get_Jacobian_det()const;
+        Matrix2d get_Jacobian_inv_mat()const;
+        void compute_middle();
+        vector<double> computeBarryCenter()const;
+        vector<double> computeBarryCoord(double x, double y)const;
+        vector<double> computeBarryCoord(Vertice V)const;
+        void display()const;
 };

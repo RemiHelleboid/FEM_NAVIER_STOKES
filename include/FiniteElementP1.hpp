@@ -9,7 +9,8 @@
 #include <functional>
 #include <Eigen/Dense>
 #include "Mesh.hpp"
-#include <Eigen/Sparse>	
+#include "Quadratures.hpp"
+#include <Eigen/Sparse>
 
 using namespace Eigen;
 using namespace std;
@@ -35,12 +36,11 @@ class FiniteElementP1{
 		Vector2d Compute_Grad_Triangle_Ref(int i);						//Gradient de la fonction de base associé au sommet i du triangle de ref
 
 	//Méthodes : Création et résolution du système linéaire
-		Matrix3d Compute_Elementary_Matrix(const Triangle &T);
+		Matrix3d Compute_Elementary_Stiffness_Matrix(const Triangle &T);
+		Matrix3d Compute_Elementary_Stiffness_Matrix_test(const Triangle &T);
 		Matrix3d Compute_Elementary_Mass_Matrix(const Triangle &T);
-		Matrix3d Compute_Elementary_Matrix_test(const Triangle &T);
-		Matrix3d Compute_Elementary_Matrix_Formal(const Triangle &T);
 		Vector3d Compute_Elementary_Second_Member(const Triangle &T);
-		void Compute_Rigidity_Matrix();
+		void Compute_Stiffness_Matrix();
 		void Compute_Mass_Matrix();
 		void Compute_Dirichlet_Bound_Condition();
 		void Compute_Second_Member();		//If needed
@@ -48,7 +48,9 @@ class FiniteElementP1{
 		double Compute_l2_error();
 		bool check_sizes();
 		void Display_Linear_Syst();
-		void Display_Solution(){cout<<"Solution : \n"<<U<<endl;cout<<"MAX : \n"<<U.maxCoeff()<<endl;};
+		void Display_Solution(){cout<<"MAX : \n"<<U.maxCoeff()<<endl<<"MIN : \n"<<U.minCoeff()<<endl;};
 		void Export_Solution(string filename);
+		SparseMatrix<double> get_stiffness_matrix()const{return(A);}
+		VectorXd get_second_member()const{return(B);}
 
 	};

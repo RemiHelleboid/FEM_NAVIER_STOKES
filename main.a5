@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="2757223020">
+        <error id="noExplicitConstructor" severity="style" msg="Struct &apos;streaming_observer&apos; has a constructor with 1 argument that is not explicit." verbose="Struct &apos;streaming_observer&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="/home/remi/Desktop/ST/DOC CODE/main.cpp" file="/home/remi/Desktop/ST/DOC CODE/Streamlines.hpp" line="42" column="6"/>
+            <symbol>streaming_observer</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;F_x&apos; can be reduced." verbose="The scope of the variable &apos;F_x&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file0="/home/remi/Desktop/ST/DOC CODE/main.cpp" file="/home/remi/Desktop/ST/DOC CODE/Streamlines.hpp" line="25" column="9"/>
+            <symbol>F_x</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;F_y&apos; can be reduced." verbose="The scope of the variable &apos;F_y&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file0="/home/remi/Desktop/ST/DOC CODE/main.cpp" file="/home/remi/Desktop/ST/DOC CODE/Streamlines.hpp" line="25" column="14"/>
+            <symbol>F_y</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;F_z&apos; can be reduced." verbose="The scope of the variable &apos;F_z&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file0="/home/remi/Desktop/ST/DOC CODE/main.cpp" file="/home/remi/Desktop/ST/DOC CODE/Streamlines.hpp" line="25" column="19"/>
+            <symbol>F_z</symbol>
+        </error>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="MeshGrid" lineNumber="18"/>
+    <functiondecl functionName="main" lineNumber="42"/>
+    <functioncall functionName="F"/>
+    <functioncall functionName="F_x"/>
+    <functioncall functionName="F_y"/>
+    <functioncall functionName="F_z"/>
+    <functioncall functionName="Field"/>
+    <functioncall functionName="LineDxDt"/>
+    <functioncall functionName="Mesh"/>
+    <functioncall functionName="MeshGrid"/>
+    <functioncall functionName="NbPperDir"/>
+    <functioncall functionName="Point"/>
+    <functioncall functionName="StreamLine"/>
+    <functioncall functionName="X0"/>
+    <functioncall functionName="Z"/>
+    <functioncall functionName="bounds"/>
+    <functioncall functionName="close"/>
+    <functioncall functionName="double"/>
+    <functioncall functionName="f"/>
+    <functioncall functionName="f_lines"/>
+    <functioncall functionName="for"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="integrate_const"/>
+    <functioncall functionName="k"/>
+    <functioncall functionName="m_out"/>
+    <functioncall functionName="open"/>
+    <functioncall functionName="out"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="return"/>
+    <functioncall functionName="runge_kutta4"/>
+    <functioncall functionName="sin"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="streaming_observer"/>
+    <functioncall functionName="x"/>
+    <functioncall functionName="xmin"/>
+    <functioncall functionName="y"/>
+    <functioncall functionName="ymin"/>
+    <functioncall functionName="z"/>
+    <functioncall functionName="zmin"/>
+  </FileInfo>
+</analyzerinfo>

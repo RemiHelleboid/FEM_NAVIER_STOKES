@@ -1,0 +1,73 @@
+include "getARGV.idp"
+// int nn=getARGV("-nn",10);
+// string sTh=getARGV("-Th","Th.msh");
+//
+// mesh Th=square(nn*10,nn,[x*10,y]);
+// Th= trunc(Th,(x>2)|| (y>0.5),label=5);
+// //plot(Th,wait=1);
+
+mesh Th = readmesh("ThMarche.msh");
+plot(Th, wait=1);
+fespace Vh(Th,P2);
+fespace Ph(Th,P1);
+real epsp = 1e-7;
+Vh u1,u2,v1,v2;
+Ph p,q;
+real f1=1,f2=0; //  Force qui fait bouge le fluide
+real nu=0.0025;
+macro DD(u,v) [ dx(u),dy(v), (dx(v)+dy(u))*0.5, (dx(v)+dy(u))*0.5 ] //
+macro Grad(u,v) [ dx(u),dy(v), dx(v), dy(u) ] //
+macro div(u1,u2) (dx(u1)+dy(u2) ) //
+
+solve Stokes( [u1,u2,p],[v1,v2,q] ) =
+int2d(Th) ( nu*Grad(u1,u2)'*Grad(v1,v2) - div(v1,v2)*p -div(u1,u2)*q - epsp*p*q)
+ // + on(1,3,u1=0,u2=0) // non glissement en haut en bas
+//  + on(2,4,u1=(y)*(1-y)*4,u2=0) // ecoulement normal  au enter et sortie du tuyau
++ on(4,u1=-16*(1-y)*(0.5-y),u2=0)
++on(1,3,5,u1=0,u2=0)
+  // force surface applique au deux extermite du tyau
+;
+
+cout << u1[].linfty << " " <<  u2[].linfty << " "<< p[].linfty << endl;
+
+//plot([u1,u2],p, wait=1,coef= 0.1/( u1[].linfty +  u2[].linfty), cmm=" meca 1"  );
+
+Vh uf1,uf2,g1,g2;
+Ph pf;
+{
+	ifstream f("SteadyStokes.data");
+	for(int k=0; k<Th.nt;++k)
+	{
+	for(int i=0; i<Vh.ndofK; ++i)
+	f >> uf1[][Vh(k,i)];
+	for(int i=0; i<Vh.ndofK; ++i)
+	f >> uf2[][Vh(k,i)];
+	for(int i=0; i<Ph.ndofK; ++i)
+	f >> pf[][Ph(k,i)];
+}
+}
+real L2err=1;
+real Linf=1;
+real L1err=1;
+
+g1=(uf1-u1);
+g2=(uf2-u2);
+
+L2err = sqrt(int2d(Th)(square(uf1-u1)+square(uf2-u2))/Th.area);
+Linf = g1[].linfty+g2[].linfty;
+L1err = int2d(Th)(sqrt(square(uf1-u1))+sqrt(square(uf2-u2)))/Th.area;
+
+cout<< "L2 err =" << L2err <<endl;
+cout<< "Linf err =" << Linf <<endl;
+cout<< "L1 err =" << L1err <<endl;
+
+//ps="check41uFreefem.eps",
+plot([uf1,uf2],fill=0,value=true,coef=0.1,wait=1);
+plot([u1,u2],fill=0,value=true,coef=0.1,wait=1);
+plot(pf,fill=1,value=true,wait=1);
+plot(p,fill=1,value=true,wait=1);
+
+load "iovtk"
+int[int] Order = [1];
+string DataName = "u";
+savevtk("uuu.vtu", Th, [u1, u2], dataname=DataName, order=Order);

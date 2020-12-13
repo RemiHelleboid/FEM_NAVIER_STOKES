@@ -1,0 +1,15 @@
+int nn=4;
+mesh Th=square(nn,nn);
+savemesh(Th,"Th.msh");
+fespace Vh(Th,P1);
+Vh u,v;
+macro grad(u) [dx(u),dy(u)] //
+varf Pb(u,v) = int2d(Th)(grad(u)'*grad(v)) + int2d(Th)(1.*v) +on(2,u=2);
+matrix A = Pb(Vh,Vh);
+real[int] b=Pb(0,Vh);
+cout << " A = "<< A << endl;
+cout << " b " << b << endl;
+u[]=A^-1*b;  
+cout << u[].min <<  " " << u[].max << endl; 
+plot(u,fill=0,cmm=" diff",wait=1);
+//plot(uf,fill=0,cmm="uf",wait=1);

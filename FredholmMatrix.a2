@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="1069433940">
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;k&apos; can be reduced." verbose="The scope of the variable &apos;k&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="200" column="6"/>
+            <symbol>k</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;j&apos; can be reduced." verbose="The scope of the variable &apos;j&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="201" column="6"/>
+            <symbol>j</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;k&apos; can be reduced." verbose="The scope of the variable &apos;k&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="225" column="6"/>
+            <symbol>k</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;j&apos; can be reduced." verbose="The scope of the variable &apos;j&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="226" column="6"/>
+            <symbol>j</symbol>
+        </error>
+        <error id="constParameter" severity="style" msg="Parameter &apos;V&apos; can be declared with const" verbose="Parameter &apos;V&apos; can be declared with const" cwe="398">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="87" column="67"/>
+        </error>
+        <error id="constParameter" severity="style" msg="Parameter &apos;V&apos; can be declared with const" verbose="Parameter &apos;V&apos; can be declared with const" cwe="398">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="101" column="67"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;k&apos; is assigned a value that is never used." verbose="Variable &apos;k&apos; is assigned a value that is never used." cwe="563">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="200" column="7"/>
+            <symbol>k</symbol>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;j&apos; is assigned a value that is never used." verbose="Variable &apos;j&apos; is assigned a value that is never used." cwe="563">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="201" column="7"/>
+            <symbol>j</symbol>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;k&apos; is assigned a value that is never used." verbose="Variable &apos;k&apos; is assigned a value that is never used." cwe="563">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="225" column="7"/>
+            <symbol>k</symbol>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;j&apos; is assigned a value that is never used." verbose="Variable &apos;j&apos; is assigned a value that is never used." cwe="563">
+            <location file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="226" column="7"/>
+            <symbol>j</symbol>
+        </error>
+  <FileInfo check="ctu">
+<function-call call-id="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp:251:8" call-funcname="FHMDiff" call-argnr="3" file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="282" col="29" call-argexpr="k" call-argvaluetype="0" call-argvalue="0"/><function-call call-id="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp:251:8" call-funcname="FHMDiff" call-argnr="3" file="/home/remi/Desktop/Master 1/Python/!Large-Linear-Systemes-Solver-master/src/FredholmMatrix.cpp" line="283" col="22" call-argexpr="k" call-argvaluetype="0" call-argvalue="0"/>  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="MVProd" lineNumber="72"/>
+    <functiondecl functionName="inverse_triang_sup" lineNumber="87"/>
+    <functiondecl functionName="inverse_triang_inf" lineNumber="101"/>
+    <functiondecl functionName="ResoLU" lineNumber="116"/>
+    <functiondecl functionName="Solve" lineNumber="134"/>
+    <functiondecl functionName="FrobeniusNorm" lineNumber="143"/>
+    <functiondecl functionName="FHMDiff" lineNumber="251"/>
+    <functiondecl functionName="TestSVDCross" lineNumber="259"/>
+    <functiondecl functionName="TestSVDEigen" lineNumber="274"/>
+    <functioncall functionName="A"/>
+    <functioncall functionName="ARG"/>
+    <functioncall functionName="Argmax"/>
+    <functioncall functionName="B"/>
+    <functioncall functionName="CoefSVD"/>
+    <functioncall functionName="ComputeFullV"/>
+    <functioncall functionName="CrossApproxCompute"/>
+    <functioncall functionName="D"/>
+    <functioncall functionName="F"/>
+    <functioncall functionName="FHMDiff"/>
+    <functioncall functionName="FM1"/>
+    <functioncall functionName="FredholmMatrix"/>
+    <functioncall functionName="Insert"/>
+    <functioncall functionName="L"/>
+    <functioncall functionName="M"/>
+    <functioncall functionName="N"/>
+    <functioncall functionName="NN"/>
+    <functioncall functionName="NewCol"/>
+    <functioncall functionName="NewRow"/>
+    <functioncall functionName="NewVal"/>
+    <functioncall functionName="R"/>
+    <functioncall functionName="ResoLU"/>
+    <functioncall functionName="S"/>
+    <functioncall functionName="SVDEigen"/>
+    <functioncall functionName="U"/>
+    <functioncall functionName="V"/>
+    <functioncall functionName="X"/>
+    <functioncall functionName="Y"/>
+    <functioncall functionName="a"/>
+    <functioncall functionName="asDiagonal"/>
+    <functioncall functionName="b"/>
+    <functioncall functionName="close"/>
+    <functioncall functionName="decomp_LU"/>
+    <functioncall functionName="diag"/>
+    <functioncall functionName="double"/>
+    <functioncall functionName="for"/>
+    <functioncall functionName="get_col"/>
+    <functioncall functionName="get_row"/>
+    <functioncall functionName="get_val"/>
+    <functioncall functionName="i"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="int"/>
+    <functioncall functionName="inverse_triang_inf"/>
+    <functioncall functionName="inverse_triang_sup"/>
+    <functioncall functionName="j"/>
+    <functioncall functionName="k"/>
+    <functioncall functionName="matrixU"/>
+    <functioncall functionName="matrixV"/>
+    <functioncall functionName="os"/>
+    <functioncall functionName="p"/>
+    <functioncall functionName="pow"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="r"/>
+    <functioncall functionName="return"/>
+    <functioncall functionName="run"/>
+    <functioncall functionName="s"/>
+    <functioncall functionName="singularValues"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="sqrt"/>
+    <functioncall functionName="squaredNorm"/>
+    <functioncall functionName="svd"/>
+    <functioncall functionName="taille"/>
+    <functioncall functionName="transpose"/>
+    <functioncall functionName="u"/>
+    <functioncall functionName="v"/>
+    <functioncall functionName="value"/>
+    <functioncall functionName="x"/>
+  </FileInfo>
+</analyzerinfo>

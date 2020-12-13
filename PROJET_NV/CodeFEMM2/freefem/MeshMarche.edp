@@ -1,0 +1,12 @@
+border a0(t=1,0){ x=-2;      y=t;      label=1;}// inlet ..
+border a1(t=-2,0){ x=t;    y=0;        label=2;}
+border a2(t=0,-0.5){ x=0;      y=t;       label=2;}
+border a3(t=0,1){ x=18*t^1.2;  y=-0.5;       label=2;}
+border a4(t=-0.5,1){ x=18;     y=t;   label=3;}// outlet
+border a5(t=1,0){ x=-2+20*t; y=1;        label=4;}
+int n=1;
+mesh Th= buildmesh(a0(3*n)+a1(20*n)+a2(10*n)+a3(150*n)+a4(5*n)+a5(100*n));
+
+savemesh(Th,"MeshMarche.msh");
+savemesh(Th,"../MeshMarche.msh");
+plot(Th);

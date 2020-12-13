@@ -1,0 +1,10 @@
+include "getARGV.idp"
+int nn=getARGV("-nn",10);
+string sTh=getARGV("-Th","Th.msh");
+
+mesh Th=square(nn*10,nn,[x*10,y]);
+Th= trunc(Th,(x>2)|| (y>0.5),label=5);
+
+cout << " sauve msh dans : \"" << sTh << "\"" <<endl;
+savemesh(Th,"ThMarche.msh");
+plot(Th,cmm=sTh);

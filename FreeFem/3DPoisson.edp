@@ -1,0 +1,5 @@
+load "msh3"
+
+mesh3 Th = cube(4, 4, 4);
+plot(Th,wait=1) ;
+savemesh(Th,"Cube.msh");

@@ -1,0 +1,136 @@
+Binary file /home/remi/fem_navstokes/.tags matches
+Mesh	/home/remi/fem_navstokes/src/Mesh.cpp	/^Mesh::Mesh(string filename){$/;"	function	line:14	class:Mesh	signature:(string filename)
+show_parameters	/home/remi/fem_navstokes/src/Mesh.cpp	/^void Mesh::show_parameters(){$/;"	function	line:62	class:Mesh	signature:()
+display	/home/remi/fem_navstokes/src/Mesh.cpp	/^void Mesh::display(){$/;"	function	line:69	class:Mesh	signature:()
+build_edges	/home/remi/fem_navstokes/src/Mesh.cpp	/^void Mesh::build_edges(){$/;"	function	line:90	class:Mesh	signature:()
+build_half_bridges	/home/remi/fem_navstokes/src/Mesh.cpp	/^void Mesh::build_half_bridges(){$/;"	function	line:117	class:Mesh	signature:()
+FiniteElementP1	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^class FiniteElementP1{$/;"	class	line:18
+mesh	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^		const Mesh mesh;	\/\/Maillage$/;"	member	line:20	class:FiniteElementP1
+A	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^		SparseMatrix<double> A;			\/\/Matrice de rigidité$/;"	member	line:21	class:FiniteElementP1
+M	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^		MatrixXd M;			\/\/Matrice de mass$/;"	member	line:22	class:FiniteElementP1
+B	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^		VectorXd B;			\/\/second membre$/;"	member	line:23	class:FiniteElementP1
+U	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^		VectorXd U;			\/\/Vecteur solution$/;"	member	line:24	class:FiniteElementP1
+A_is_modified	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^		bool A_is_modified=false;$/;"	member	line:25	class:FiniteElementP1
+FiniteElementP1	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^		FiniteElementP1(const FiniteElementP1 &FE):mesh(FE.mesh), A(FE.A),M(FE.M), B(FE.B), U(FE.U), A_is_modified(FE.A_is_modified){};$/;"	function	line:30	class:FiniteElementP1	signature:(const FiniteElementP1 &FE)
+Display_Solution	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^		void Display_Solution(){cout<<"MAX : \\n"<<U.maxCoeff()<<endl<<"MIN : \\n"<<U.minCoeff()<<endl;};$/;"	function	line:51	class:FiniteElementP1	signature:()
+get_stiffness_matrix	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^		SparseMatrix<double> get_stiffness_matrix()const{return(A);}$/;"	function	line:53	class:FiniteElementP1	signature:() const
+get_second_member	/home/remi/fem_navstokes/include/FiniteElementP1.hpp	/^		VectorXd get_second_member()const{return(B);}$/;"	function	line:54	class:FiniteElementP1	signature:() const
+Vector6d	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^typedef Matrix<double, 6, 1> Vector6d;$/;"	typedef	line:17
+FiniteElementP2	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^class FiniteElementP2{$/;"	class	line:20
+mesh	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^		Mesh mesh;	\/\/Maillage$/;"	member	line:22	class:FiniteElementP2
+A	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^		SparseMatrix<double>  A;			\/\/Matrice de rigidité$/;"	member	line:23	class:FiniteElementP2
+M	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^        MatrixXd M;			\/\/Matrice de mass$/;"	member	line:24	class:FiniteElementP2
+B	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^		VectorXd B;			\/\/second membre$/;"	member	line:25	class:FiniteElementP2
+U	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^		VectorXd U;			\/\/Vecteur solution$/;"	member	line:26	class:FiniteElementP2
+A_is_modified	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^		bool A_is_modified = false;$/;"	member	line:27	class:FiniteElementP2
+FiniteElementP2	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^		FiniteElementP2(const FiniteElementP2 &FE):mesh(FE.mesh), A(FE.A),M(FE.M), B(FE.B), U(FE.U), A_is_modified(FE.A_is_modified){};$/;"	function	line:32	class:FiniteElementP2	signature:(const FiniteElementP2 &FE)
+Display_Solution	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^		void Display_Solution(){cout<<"MAX : \\n"<<U.maxCoeff()<<endl<<"MIN : \\n"<<U.minCoeff()<<endl;};$/;"	function	line:57	class:FiniteElementP2	signature:()
+get_stiffness_matrix	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^		SparseMatrix<double> get_stiffness_matrix()const{return(A);}$/;"	function	line:59	class:FiniteElementP2	signature:() const
+get_second_member	/home/remi/fem_navstokes/include/FiniteElementP2.hpp	/^		VectorXd get_second_member()const{return(B);}$/;"	function	line:60	class:FiniteElementP2	signature:() const
+f2	/home/remi/fem_navstokes/main.cpp	/^double f2(double x, double y){$/;"	function	line:15	signature:(double x, double y)
+Full_Ones_Vect	/home/remi/fem_navstokes/main.cpp	/^VectorXd Full_Ones_Vect(int size){$/;"	function	line:19	signature:(int size)
+main	/home/remi/fem_navstokes/main.cpp	/^int  main(int argc, const char** argv){$/;"	function	line:29	signature:(int argc, const char** argv)
+assertm	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^#define assertm(/;"	macro	line:20	file:
+func_force	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^double func_force(double x, double y){$/;"	function	line:22	signature:(double x, double y)
+FiniteElementP1	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^FiniteElementP1::FiniteElementP1(const Mesh &mesh0, VectorXd B0):mesh(mesh0){$/;"	function	line:33	class:FiniteElementP1	signature:(const Mesh &mesh0, VectorXd B0)
+Compute_Jacobi_Matrix	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^Matrix2d FiniteElementP1::Compute_Jacobi_Matrix(const Triangle &T){$/;"	function	line:42	class:FiniteElementP1	signature:(const Triangle &T)
+Compute_Inverse_Jacobi_Matrix	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^Matrix2d FiniteElementP1::Compute_Inverse_Jacobi_Matrix(const Triangle &T){$/;"	function	line:53	class:FiniteElementP1	signature:(const Triangle &T)
+Compute_Grad_Triangle_Ref	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^Vector2d FiniteElementP1::Compute_Grad_Triangle_Ref(int local_vertice_index){$/;"	function	line:62	class:FiniteElementP1	signature:(int local_vertice_index)
+check_sizes	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^bool FiniteElementP1::check_sizes(){$/;"	function	line:76	class:FiniteElementP1	signature:()
+Compute_Elementary_Stiffness_Matrix	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^Matrix3d FiniteElementP1::Compute_Elementary_Stiffness_Matrix(const Triangle &T){$/;"	function	line:83	class:FiniteElementP1	signature:(const Triangle &T)
+Compute_Elementary_Stiffness_Matrix_test	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^Matrix3d FiniteElementP1::Compute_Elementary_Stiffness_Matrix_test(const Triangle &T){$/;"	function	line:102	class:FiniteElementP1	signature:(const Triangle &T)
+Compute_Elementary_Mass_Matrix	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^Matrix3d FiniteElementP1::Compute_Elementary_Mass_Matrix(const Triangle &T){$/;"	function	line:115	class:FiniteElementP1	signature:(const Triangle &T)
+Compute_Stiffness_Matrix	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^void FiniteElementP1::Compute_Stiffness_Matrix(){$/;"	function	line:126	class:FiniteElementP1	signature:()
+Compute_Mass_Matrix	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^void FiniteElementP1::Compute_Mass_Matrix(){$/;"	function	line:152	class:FiniteElementP1	signature:()
+Compute_Elementary_Second_Member	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^Vector3d FiniteElementP1::Compute_Elementary_Second_Member(const Triangle &T){$/;"	function	line:172	class:FiniteElementP1	signature:(const Triangle &T)
+Compute_Second_Member	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^void FiniteElementP1::Compute_Second_Member(){$/;"	function	line:191	class:FiniteElementP1	signature:()
+Direct_Method_Solve_Systeme	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^void FiniteElementP1::Direct_Method_Solve_Systeme(string Solver_type){$/;"	function	line:207	class:FiniteElementP1	signature:(string Solver_type)
+Compute_l2_error	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^double FiniteElementP1::Compute_l2_error(){$/;"	function	line:228	class:FiniteElementP1	signature:()
+Display_Linear_Syst	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^void FiniteElementP1::Display_Linear_Syst(){$/;"	function	line:233	class:FiniteElementP1	signature:()
+Export_Solution	/home/remi/fem_navstokes/src/FiniteElementP1.cpp	/^void FiniteElementP1::Export_Solution(string filename){$/;"	function	line:244	class:FiniteElementP1	signature:(string filename)
+assertm	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^#define assertm(/;"	macro	line:18	file:
+FiniteElementP2	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^FiniteElementP2::FiniteElementP2(Mesh & mesh0, VectorXd B0):mesh(mesh0), B(B0){$/;"	function	line:21	class:FiniteElementP2	signature:(Mesh & mesh0, VectorXd B0)
+Compute_Jacobi_Matrix	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^Matrix2d FiniteElementP2::Compute_Jacobi_Matrix(const Triangle &T){$/;"	function	line:35	class:FiniteElementP2	signature:(const Triangle &T)
+Compute_Inverse_Jacobi_Matrix	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^Matrix2d FiniteElementP2::Compute_Inverse_Jacobi_Matrix(const Triangle &T){$/;"	function	line:46	class:FiniteElementP2	signature:(const Triangle &T)
+Compute_Grad_Triangle_Ref	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^Vector2d FiniteElementP2::Compute_Grad_Triangle_Ref(int local_vertice_index){$/;"	function	line:55	class:FiniteElementP2	signature:(int local_vertice_index)
+Compute_Elementary_Stiffness_Matrix	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Stiffness_Matrix(const Triangle &T){$/;"	function	line:70	class:FiniteElementP2	signature:(const Triangle &T)
+Compute_Elementary_Stiffness_Matrix_test	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Stiffness_Matrix_test(const Triangle &T){$/;"	function	line:138	class:FiniteElementP2	signature:(const Triangle &T)
+check_sizes	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^bool FiniteElementP2::check_sizes(){$/;"	function	line:153	class:FiniteElementP2	signature:()
+Compute_Stiffness_Matrix	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^void FiniteElementP2::Compute_Stiffness_Matrix(){$/;"	function	line:160	class:FiniteElementP2	signature:()
+kron	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^inline double kron(int i, int k){$/;"	function	line:185	signature:(int i, int k)
+Compute_Integral_type	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^inline int Compute_Integral_type(int i, int j, int k ,int l){$/;"	function	line:193	signature:(int i, int j, int k ,int l)
+Compute_Integral	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^inline double Compute_Integral(int sommet_p, int sommet_q){$/;"	function	line:217	signature:(int sommet_p, int sommet_q)
+Compute_Elementary_Mass_Matrix	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Mass_Matrix(const Triangle &T){$/;"	function	line:243	class:FiniteElementP2	signature:(const Triangle &T)
+Compute_Elementary_Mass_Matrix_test	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Mass_Matrix_test(const Triangle &T){$/;"	function	line:287	class:FiniteElementP2	signature:(const Triangle &T)
+Compute_Mass_Matrix	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^void FiniteElementP2::Compute_Mass_Matrix(){$/;"	function	line:300	class:FiniteElementP2	signature:()
+Compute_Elementary_Second_Member	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^Vector6d FiniteElementP2::Compute_Elementary_Second_Member(const Triangle &T){$/;"	function	line:321	class:FiniteElementP2	signature:(const Triangle &T)
+Compute_Second_Member	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^void FiniteElementP2::Compute_Second_Member(){$/;"	function	line:341	class:FiniteElementP2	signature:()
+Direct_Method_Solve_Systeme	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^void FiniteElementP2::Direct_Method_Solve_Systeme(string Solver_type){$/;"	function	line:356	class:FiniteElementP2	signature:(string Solver_type)
+Compute_l2_error	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^double FiniteElementP2::Compute_l2_error(){$/;"	function	line:377	class:FiniteElementP2	signature:()
+Display_Linear_Syst	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^void FiniteElementP2::Display_Linear_Syst(){$/;"	function	line:382	class:FiniteElementP2	signature:()
+Export_Solution	/home/remi/fem_navstokes/src/FiniteElementP2.cpp	/^void FiniteElementP2::Export_Solution(string filename){$/;"	function	line:393	class:FiniteElementP2	signature:(string filename)
+vect	/home/remi/fem_navstokes/include/Geometry.hpp	/^typedef vector<double> vect;$/;"	typedef	line:17
+vectint	/home/remi/fem_navstokes/include/Geometry.hpp	/^typedef vector<int> vectint;$/;"	typedef	line:18
+Vertice	/home/remi/fem_navstokes/include/Geometry.hpp	/^class Vertice{$/;"	class	line:21
+index	/home/remi/fem_navstokes/include/Geometry.hpp	/^        int index;	\/\/numéro global du sommet entre 1 et n_v !!!!!$/;"	member	line:23	class:Vertice
+label	/home/remi/fem_navstokes/include/Geometry.hpp	/^        int label;	\/\/label du sommet$/;"	member	line:24	class:Vertice
+coordinates	/home/remi/fem_navstokes/include/Geometry.hpp	/^        vector<double> coordinates;   \/\/(x, y) coord$/;"	member	line:25	class:Vertice
+Vertice	/home/remi/fem_navstokes/include/Geometry.hpp	/^        Vertice(){label=0; index = 0; coordinates.resize(2); coordinates[0]=0, coordinates[1]=0;};$/;"	function	line:28	class:Vertice	signature:()
+Vertice	/home/remi/fem_navstokes/include/Geometry.hpp	/^        Vertice(int index0, int label0, double x0, double y0){coordinates.resize(2); coordinates[0]=x0, coordinates[1]=y0; index=index0; label=label0;};$/;"	function	line:29	class:Vertice	signature:(int index0, int label0, double x0, double y0)
+Vertice	/home/remi/fem_navstokes/include/Geometry.hpp	/^        Vertice(const Vertice &V):index(V.index), label(V.label), coordinates(V.coordinates){};$/;"	function	line:30	class:Vertice	signature:(const Vertice &V)
+get_coord	/home/remi/fem_navstokes/include/Geometry.hpp	/^        vector<double> get_coord()const{return(coordinates);}$/;"	function	line:32	class:Vertice	signature:() const
+x	/home/remi/fem_navstokes/include/Geometry.hpp	/^        double x()const{return(coordinates[0]);}$/;"	function	line:33	class:Vertice	signature:() const
+y	/home/remi/fem_navstokes/include/Geometry.hpp	/^        double y()const{return(coordinates[1]);}$/;"	function	line:34	class:Vertice	signature:() const
+get_index	/home/remi/fem_navstokes/include/Geometry.hpp	/^        int get_index()const{return(index);}$/;"	function	line:35	class:Vertice	signature:() const
+get_label	/home/remi/fem_navstokes/include/Geometry.hpp	/^        int get_label()const{return(label);}$/;"	function	line:36	class:Vertice	signature:() const
+set_label	/home/remi/fem_navstokes/include/Geometry.hpp	/^        void set_label(int new_label){label = new_label;}$/;"	function	line:37	class:Vertice	signature:(int new_label)
+set_index	/home/remi/fem_navstokes/include/Geometry.hpp	/^        void set_index(int new_index){index = new_index;}$/;"	function	line:38	class:Vertice	signature:(int new_index)
+operator ==	/home/remi/fem_navstokes/include/Geometry.hpp	/^        bool operator==(const Vertice & V0)const{return(V0.coordinates==coordinates);};$/;"	function	line:40	class:Vertice	signature:(const Vertice & V0) const
+Edge	/home/remi/fem_navstokes/include/Geometry.hpp	/^class Edge{$/;"	class	line:43
+label	/home/remi/fem_navstokes/include/Geometry.hpp	/^        int label;$/;"	member	line:45	class:Edge
+V	/home/remi/fem_navstokes/include/Geometry.hpp	/^        vector<Vertice> V;$/;"	member	line:46	class:Edge
+Edge	/home/remi/fem_navstokes/include/Geometry.hpp	/^        Edge(){label = 0; V = vector<Vertice>(2);}$/;"	function	line:48	class:Edge	signature:()
+Edge	/home/remi/fem_navstokes/include/Geometry.hpp	/^        Edge(const Edge &E):label(E.label), V(E.V){};$/;"	function	line:50	class:Edge	signature:(const Edge &E)
+get_vertices	/home/remi/fem_navstokes/include/Geometry.hpp	/^        vector<Vertice> get_vertices()const{return(V);};$/;"	function	line:55	class:Edge	signature:() const
+get_label	/home/remi/fem_navstokes/include/Geometry.hpp	/^        int get_label()const{return(label);};$/;"	function	line:56	class:Edge	signature:() const
+set_label	/home/remi/fem_navstokes/include/Geometry.hpp	/^        void set_label(int new_label){label = new_label;};$/;"	function	line:57	class:Edge	signature:(int new_label)
+Triangle	/home/remi/fem_navstokes/include/Geometry.hpp	/^class Triangle{$/;"	class	line:61
+label	/home/remi/fem_navstokes/include/Geometry.hpp	/^        int label;$/;"	member	line:63	class:Triangle
+V	/home/remi/fem_navstokes/include/Geometry.hpp	/^        vector<Vertice> V;$/;"	member	line:64	class:Triangle
+V_half	/home/remi/fem_navstokes/include/Geometry.hpp	/^        vector<Vertice>	V_half;$/;"	member	line:65	class:Triangle
+BarryCenter	/home/remi/fem_navstokes/include/Geometry.hpp	/^        Vertice BarryCenter;$/;"	member	line:66	class:Triangle
+Triangle	/home/remi/fem_navstokes/include/Geometry.hpp	/^        Triangle(){label=0; V = vector<Vertice>(3);};$/;"	function	line:68	class:Triangle	signature:()
+Triangle	/home/remi/fem_navstokes/include/Geometry.hpp	/^        Triangle(int l, vector<Vertice> V0):label(l), V(V0){};$/;"	function	line:69	class:Triangle	signature:(int l, vector<Vertice> V0)
+Triangle	/home/remi/fem_navstokes/include/Geometry.hpp	/^        Triangle(const Triangle &T):label(T.label), V(T.V), V_half(T.V_half), BarryCenter(T.BarryCenter){};$/;"	function	line:70	class:Triangle	signature:(const Triangle &T)
+Add_Half_Vertices	/home/remi/fem_navstokes/include/Geometry.hpp	/^        void Add_Half_Vertices(Vertice V_half_add){V_half.push_back(V_half_add);};$/;"	function	line:72	class:Triangle	signature:(Vertice V_half_add)
+get_vertices	/home/remi/fem_navstokes/include/Geometry.hpp	/^        vector<Vertice> get_vertices()const{return(V);}$/;"	function	line:79	class:Triangle	signature:() const
+get_vertices_middle	/home/remi/fem_navstokes/include/Geometry.hpp	/^        vector<Vertice> get_vertices_middle()const{return(V_half);}$/;"	function	line:80	class:Triangle	signature:() const
+Edge	/home/remi/fem_navstokes/src/Geometry.cpp	/^Edge::Edge(int l, vector<Vertice> V0):label(l){$/;"	function	line:13	class:Edge	signature:(int l, vector<Vertice> V0)
+operator ==	/home/remi/fem_navstokes/src/Geometry.cpp	/^bool Edge::operator==(const Edge & E0)const{$/;"	function	line:26	class:Edge	signature:(const Edge & E0) const
+vect	/home/remi/fem_navstokes/src/Geometry.cpp	/^vector<double> Edge::vect(){$/;"	function	line:32	class:Edge	signature:()
+perp	/home/remi/fem_navstokes/src/Geometry.cpp	/^vector<double> Edge::perp(){$/;"	function	line:42	class:Edge	signature:()
+Compute_middle	/home/remi/fem_navstokes/src/Geometry.cpp	/^Vertice Edge::Compute_middle(){$/;"	function	line:50	class:Edge	signature:()
+area	/home/remi/fem_navstokes/src/Geometry.cpp	/^double Triangle::area()const{$/;"	function	line:59	class:Triangle	signature:() const
+signed_area	/home/remi/fem_navstokes/src/Geometry.cpp	/^double Triangle::signed_area()const{$/;"	function	line:65	class:Triangle	signature:() const
+edge_opp	/home/remi/fem_navstokes/src/Geometry.cpp	/^Edge Triangle::edge_opp(int i)const{$/;"	function	line:71	class:Triangle	signature:(int i) const
+GradLambda	/home/remi/fem_navstokes/src/Geometry.cpp	/^Vector2d Triangle::GradLambda(int i)const{$/;"	function	line:81	class:Triangle	signature:(int i) const
+GradLambdaP2	/home/remi/fem_navstokes/src/Geometry.cpp	/^Vector2d Triangle::GradLambdaP2(int i, double lambda1, double lambda2)const{$/;"	function	line:89	class:Triangle	signature:(int i, double lambda1, double lambda2) const
+get_vertices_index	/home/remi/fem_navstokes/src/Geometry.cpp	/^vector<int> Triangle::get_vertices_index(){$/;"	function	line:116	class:Triangle	signature:()
+compute_middle	/home/remi/fem_navstokes/src/Geometry.cpp	/^void Triangle::compute_middle(){$/;"	function	line:127	class:Triangle	signature:()
+computeBarryCenter	/home/remi/fem_navstokes/src/Geometry.cpp	/^vector<double> Triangle::computeBarryCenter()const{$/;"	function	line:136	class:Triangle	signature:() const
+computeBarryCoord	/home/remi/fem_navstokes/src/Geometry.cpp	/^vector<double> Triangle::computeBarryCoord(double x, double y)const{$/;"	function	line:145	class:Triangle	signature:(double x, double y) const
+computeBarryCoord	/home/remi/fem_navstokes/src/Geometry.cpp	/^vector<double> Triangle::computeBarryCoord(Vertice V)const{$/;"	function	line:162	class:Triangle	signature:(Vertice V) const
+get_Jacobian_mat	/home/remi/fem_navstokes/src/Geometry.cpp	/^Matrix2d Triangle::get_Jacobian_mat()const{$/;"	function	line:169	class:Triangle	signature:() const
+get_Jacobian_inv_mat	/home/remi/fem_navstokes/src/Geometry.cpp	/^Matrix2d Triangle::get_Jacobian_inv_mat()const{$/;"	function	line:180	class:Triangle	signature:() const
+get_Jacobian_det	/home/remi/fem_navstokes/src/Geometry.cpp	/^double Triangle::get_Jacobian_det()const{$/;"	function	line:188	class:Triangle	signature:() const
+display	/home/remi/fem_navstokes/src/Geometry.cpp	/^void Triangle::display()const{$/;"	function	line:195	class:Triangle	signature:() const
+Vector6d	/home/remi/fem_navstokes/src/Quadratures.cpp	/^typedef Matrix<double, 6, 1> Vector6d;$/;"	typedef	line:14	file:
+Vector3d	/home/remi/fem_navstokes/src/Quadratures.cpp	/^typedef Matrix<double, 3, 1> Vector3d;$/;"	typedef	line:15	file:
+Eval_Local_Shape_Func_Triangle_Ref_P1	/home/remi/fem_navstokes/src/Quadratures.cpp	/^Vector3d Eval_Local_Shape_Func_Triangle_Ref_P1(double x, double y){$/;"	function	line:18	signature:(double x, double y)
+Eval_Local_Shape_Grad_Func_Triangle_Ref_P1	/home/remi/fem_navstokes/src/Quadratures.cpp	/^vector<Vector2d> Eval_Local_Shape_Grad_Func_Triangle_Ref_P1(const Triangle &T, double x, double y){$/;"	function	line:28	signature:(const Triangle &T, double x, double y)
+Eval_Quadrature_Stiff_P1	/home/remi/fem_navstokes/src/Quadratures.cpp	/^double Eval_Quadrature_Stiff_P1(const Triangle &T, int i, int j){$/;"	function	line:36	signature:(const Triangle &T, int i, int j)
+Eval_Local_Shape_Func_Triangle_Ref_P2	/home/remi/fem_navstokes/src/Quadratures.cpp	/^Vector6d Eval_Local_Shape_Func_Triangle_Ref_P2(double x, double y){$/;"	function	line:54	signature:(double x, double y)
+Eval_Grad_Local_Shape_Func_Triangle_P2	/home/remi/fem_navstokes/src/Quadratures.cpp	/^std::vector<Vector2d> Eval_Grad_Local_Shape_Func_Triangle_P2(const Triangle &T, double x, double y){$/;"	function	line:70	signature:(const Triangle &T, double x, double y)
+Eval_Grad_Local_Shape_Func_Triangle_REF_P2	/home/remi/fem_navstokes/src/Quadratures.cpp	/^std::vector<Vector2d> Eval_Grad_Local_Shape_Func_Triangle_REF_P2(const Triangle &T, double lambda1, double lambda2){$/;"	function	line:88	signature:(const Triangle &T, double lambda1, double lambda2)
+Eval_Quadrature_Stiff_P2	/home/remi/fem_navstokes/src/Quadratures.cpp	/^double Eval_Quadrature_Stiff_P2(const Triangle &T, int i, int j){$/;"	function	line:111	signature:(const Triangle &T, int i, int j)
+Eval_Quadrature_Mass_P2	/home/remi/fem_navstokes/src/Quadratures.cpp	/^double Eval_Quadrature_Mass_P2(Triangle &T, int i, int j){$/;"	function	line:124	signature:(Triangle &T, int i, int j)

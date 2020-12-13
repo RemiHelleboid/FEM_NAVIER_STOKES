@@ -22,10 +22,14 @@ FiniteElementP2::FiniteElementP2(Mesh & mesh0, VectorXd B0):mesh(mesh0), B(B0){
 	mesh.build_half_bridges();
 	mesh.show_parameters();
 	const int d = mesh.get_nv();
-	A = MatrixXd::Constant(d, d, 0);
+	int Number_vertices = mesh.get_nv();
+	A = SparseMatrix<double>(Number_vertices, Number_vertices);
+	A.reserve(VectorXi::Constant(Number_vertices, 12));
+	// std::cout<<A<<std::endl;
 	M = MatrixXd::Constant(d, d, 0);
-	B = VectorXd::Constant(d, 1.0);
-	U.resize(d);
+	B = VectorXd::Constant(d, 0);
+	U = VectorXd::Constant(d, 0);
+
 }
 
 Matrix2d FiniteElementP2::Compute_Jacobi_Matrix(const Triangle &T){
@@ -63,7 +67,7 @@ Vector2d FiniteElementP2::Compute_Grad_Triangle_Ref(int local_vertice_index){
 }
 
 
-Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Matrix(const Triangle &T){
+Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Stiffness_Matrix(const Triangle &T){
 	Matrix<double, 6, 6> A_K = Matrix<double, 6, 6>::Zero();
 	// double area_K = T.area();
 	// double area_K0 = 0.5;
@@ -127,7 +131,22 @@ Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Matrix(const Triangle &
 			A_K(sommet_p, sommet_q) += A_pq_K;
 		}
 	}
-	//cout<<A_K<<endl<<endl;
+	return(A_K);
+
+}
+
+Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Stiffness_Matrix_test(const Triangle &T){
+	Matrix<double, 6, 6> A_K = Matrix<double, 6, 6>::Zero();
+	// double area_K = T.area();
+	// double area_K0 = 0.5;
+	double det_JK = Compute_Jacobi_Matrix(T).determinant();
+	Matrix2d J_inv = Compute_Inverse_Jacobi_Matrix(T);
+	Matrix2d J_prod = J_inv * J_inv.transpose();
+	for(int sommet_p=0; sommet_p<6; sommet_p++){
+		for(int sommet_q=0; sommet_q<6; sommet_q++){
+			A_K(sommet_p, sommet_q) = Eval_Quadrature_Stiff_P2(T, sommet_q, sommet_p);
+		}
+	}
 	return(A_K);
 }
 
@@ -138,27 +157,30 @@ bool FiniteElementP2::check_sizes(){
 	return(size_ok);
 }
 
-void FiniteElementP2::Compute_Rigidity_Matrix(){
+void FiniteElementP2::Compute_Stiffness_Matrix(){
 	//assertm(check_sizes(), "Sizes error :sizes doesn't match");
 	unsigned int N_T = mesh.get_nt();
 	for(unsigned int k = 0; k<N_T; k++){
 
 		Triangle T_k = mesh.get_triangle(k);
 		vector<int> global_index_vertices = T_k.get_vertices_index();
-		Matrix<double, 6, 6> Elementary_matrix_K = Compute_Elementary_Matrix(T_k);		//calcul de la matrice élémentaire (3x3)
-		cout<<Elementary_matrix_K<<endl<<endl;
+		Matrix<double, 6, 6> Elementary_matrix_K = Compute_Elementary_Stiffness_Matrix(T_k);		//calcul de la matrice élémentaire (3x3)
+		Matrix<double, 6, 6> Elementary_matrix_K_test = Compute_Elementary_Stiffness_Matrix_test(T_k);		//calcul de la matrice élémentaire (3x3)
 
+		std::cout<<Elementary_matrix_K<<std::endl<<std::endl;
+		std::cout<<Elementary_matrix_K_test<<std::endl<<std::endl<<std::endl;
 		for(int p=0; p<6; p++){
 			for(int q=0; q<6; q++){
 				int i = global_index_vertices[p];		//On récupère les indices globaux des sommets du triangle T_k
 				int j = global_index_vertices[q];		//On récupère les indices globaux des sommets du triangle T_k
-				if(mesh.get_vertice(i).get_label()==1)  {A(i,j) = int(i==j); B(i) = 0;cout<<i<<j<<endl;}
-				else{A(i,j) = A(i,j) + Elementary_matrix_K(p,q);}		//On update le coefficients i, j de la matrice de rigidité
+				if(mesh.get_vertice(i).get_label()!=0)  {A.coeffRef(i, j) = int(i==j); B(i) = 0;}
+				else{A.coeffRef(i, j) += Elementary_matrix_K_test(q,p);}		//On update le coefficients i, j de la matrice de rigidité
 			}
 		}
 	}
-	cout<<A<<endl;
+	A.makeCompressed();
 }
+
 
 inline double kron(int i, int k){
 	double delta;
@@ -262,6 +284,19 @@ Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Mass_Matrix(const Trian
 	return(Elementary_mass_matrix_K);
 }
 
+Matrix<double, 6, 6> FiniteElementP2::Compute_Elementary_Mass_Matrix_test(const Triangle &T){
+	Matrix<double, 6, 6> Elementary_mass_matrix_K(6,6);
+	Elementary_mass_matrix_K << 1./60, -1./360, -1./360, 0, -1./90, 0,
+	 							-1./360, 1./60, -1./360, 0, 0, -1./90,
+	  							-1./360, -1./360, 1./60, -1./90, 0, 0,
+	   							0, 0, -1./90, 4./45, 2./45, 2./45,
+								-1./90, 0, 0, 2./45, 4./45, 2./45,
+								0, -1./90, 0, 2./45, 2./45, 4./45;
+	Elementary_mass_matrix_K = T.area() * Elementary_mass_matrix_K;
+	return(Elementary_mass_matrix_K);
+}
+
+
 void FiniteElementP2::Compute_Mass_Matrix(){
 	//assertm(check_sizes(), "Sizes error :sizes doesn't match");
 	unsigned int N_T = mesh.get_nt();
@@ -269,13 +304,14 @@ void FiniteElementP2::Compute_Mass_Matrix(){
 
 		Triangle T_k = mesh.get_triangle(k);
 		vector<int> global_index_vertices = T_k.get_vertices_index();
-		Matrix<double, 6, 6> Elementary_mass_matrix_K = Compute_Elementary_Mass_Matrix(T_k);		//calcul de la matrice élémentaire (3x3)
+		Matrix<double, 6, 6> Elementary_mass_matrix_K = Compute_Elementary_Mass_Matrix_test(T_k);		//calcul de la matrice élémentaire (3x3)
 
 		for(int p=0; p<6; p++){
 			for(int q=0; q<6; q++){
 				int i = global_index_vertices[p];		//On récupère les indices globaux des sommets du triangle T_k
 				int j = global_index_vertices[q];		//On récupère les indices globaux des sommets du triangle T_k
-				if(mesh.get_vertice(i).get_label()==1)  {A(i,j) = int(i==j); B(i) = 0;}
+
+				if(mesh.get_vertice(i).get_label()!=0)  {M(i,j) = int(i==j); B(i) = 0;}
 				else{M(i,j) = M(i,j) + Elementary_mass_matrix_K(p,q);}		//On update le coefficients i, j de la matrice de rigidité
 			}
 		}
@@ -283,39 +319,57 @@ void FiniteElementP2::Compute_Mass_Matrix(){
 }
 
 Vector6d FiniteElementP2::Compute_Elementary_Second_Member(const Triangle &T){
-	Matrix<double, 6, 6> Mass_Matrix_K = Compute_Elementary_Mass_Matrix(T);
+	Matrix<double, 6, 6> Mass_Matrix_K = Compute_Elementary_Mass_Matrix_test(T);
 	Vector6d F;
 	F << 1, 1, 1, 1, 1, 1;
 	Vector6d B_K = Mass_Matrix_K * F;
 	return(B_K);
 }
 
+
+// Vector6d  FiniteElementP2::Compute_Elementary_Second_Member_Quadrature(const Triangle &T){
+// 	double area_K = T.area();
+// 	Vector6d F0, F;
+// 	F0 << 1, 1, 1, 1, 1, 1;
+// 	for(int i=0; i<6; i++){
+// 		F(i) = Eval_Quadrature_Mass(T, i);
+// 	}
+// 	return(F);
+// }
+
+
 void FiniteElementP2::Compute_Second_Member(){
 	unsigned int N_T = mesh.get_nt();
 	for(unsigned int k = 0; k<N_T; k++){
-
 		Triangle T_k = mesh.get_triangle(k);
 		vector<int> global_index_vertices = T_k.get_vertices_index();
 		Vector6d Elementary_Vector_K = Compute_Elementary_Second_Member(T_k);		//calcul de la matrice élémentaire (3x3)
-
 		for(int sommet_p=0; sommet_p<6; sommet_p++){
-
-			int i = global_index_vertices[sommet_p]  ;
-			B(i) = B(i) + Elementary_Vector_K(sommet_p);	//On update le coefficients i
+			int i = global_index_vertices[sommet_p];
+			B(i) += Elementary_Vector_K(sommet_p);	//On update le coefficients i
 		}
 	}
+
 }
 
+
 void FiniteElementP2::Direct_Method_Solve_Systeme(string Solver_type){
-	map<string, int> map_solver = {{"LU", 1}, {"CHOLESKY",2}};
+	map<string, int> map_solver = {{"LU", 1}, {"CHOLESKY",2}, {"ITERATIVE", 3}};
 	assertm( 1, "Wrong Direct Method Solver Name" );
 	int solver_index = map_solver[Solver_type];
 	switch(solver_index){
-		case 1:{ U = A.fullPivLu().solve(B);
+		case 1:{ SparseLU<SparseMatrix<double>, COLAMDOrdering<int> >   solver;
+				 solver.analyzePattern(A);
+				 solver.factorize(A);
+				 U = solver.solve(B);
 				 break; }
 		case 2 :{ LLT<MatrixXd> Decomposition(A);
 				  Decomposition.solve(B);
 				  break; }
+		case 3 :{ BiCGSTAB<SparseMatrix<double> > solver;
+		  				  solver.compute(A);
+						  U = solver.solve(B);
+		  				  break; }
 				}
 	A_is_modified = true;
 }
@@ -339,10 +393,10 @@ void FiniteElementP2::Display_Linear_Syst(){
 void FiniteElementP2::Export_Solution(string filename){
 	ofstream F(filename);
 	int Nb_vertice = mesh.get_nv();
+	F<<'X'<<','<<'Y'<<','<<'U'<<endl;
 	for(int k=0; k<Nb_vertice; k++){
 		Vertice V_k = mesh.get_vertice(k);
 			int idx = V_k.get_index();
-			F << V_k.x() <<"\t"<< V_k.y()<<"\t" <<U[idx]<<endl;
+			F << V_k.x() <<","<< V_k.y()<<"," <<U[idx]<<endl;
 		}
-	F<<endl;
 	}

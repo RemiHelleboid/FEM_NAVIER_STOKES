@@ -1,0 +1,111 @@
+load "iovtk"
+include "getARGV.idp"
+string sTh=getARGV("-Th", "ThMarche.msh");
+int nn=10;
+mesh Th(sTh);
+
+plot(Th,wait=1);
+
+
+int lastit=1000;
+
+fespace Vh(Th, P2);
+fespace Ph(Th, P1);
+Vh u2, v2;
+Vh u1, v1;
+Ph p, q;
+
+real nu = 1.05e-3, dt = 0.005; // Reynolds=200
+
+
+Vh up1, up2;
+int i=0;
+real alpha=1/dt;
+problem NS (u1, u2, p, v1, v2, q, solver=Crout, init=i)
+    = int2d(Th)(
+          alpha*(u1*v1 + u2*v2)
+        + nu * (
+              dx(u1)*dx(v1) + dy(u1)*dy(v1)
+            + dx(u2)*dx(v2) + dy(u2)*dy(v2)
+        )
+        - p*q*(0.0000001)
+        - p*dx(v1) - p*dy(v2)
+        - dx(u1)*q - dy(u2)*q
+    )
+    + int2d(Th)(
+        - alpha*convect([up1,up2],-dt,up1)*v1
+        - alpha*convect([up1,up2],-dt,up2)*v2
+    )
+		+ on(4,u1=16,u2=0)
+		+on(1,3,5,u1=0,u2=0)
+    ;
+
+// Time loop
+for (i = 0; i < lastit; i++){
+cout << " iter " << i <<endl;
+    // Update
+   	up1 = u1;
+    up2 = u2;
+
+    // Solve
+    NS;
+    plot([u1,u2],fill=0,cmm="Freefem++",wait=0);
+    load "iovtk"
+    int[int] Order = [1];
+    string DataName = "u";
+    savevtk("NavierStokesBoule"+i+".vtu", Th, [u1, u2], dataname=DataName, order=Order);
+    // Plot
+
+}
+
+
+real outfluxf=1;
+outfluxf = int1d(Th)( [u1,u2]'*[N.x,N.y]) ;
+//assert(abs(outfluxf)< 2e-3); // verifaction ...
+cout << " iter " << lastit << endl;
+cout << " Difference flux freefem = "<< outfluxf << endl;
+
+
+Vh uf1 , uf2,g1,g2 ;
+Ph pf ;
+
+{
+	ifstream f("NS_1.txt");
+	for(int k=0; k<Th.nt;++k)
+	{
+	for(int i=0; i<Vh.ndofK; ++i)
+	f >> uf1[][Vh(k,i)];
+	for(int i=0; i<Vh.ndofK; ++i)
+	f >> uf2[][Vh(k,i)];
+	for(int i=0; i<Ph.ndofK; ++i)
+	f >> pf[][Ph(k,i)];
+}
+}
+
+real out=1;
+
+
+
+out = int1d(Th)( [uf1,uf2]'*[N.x,N.y]) ;
+cout << " Difference flux c++ = "<< out << endl;
+
+real L2err=1;
+real Linf=1;
+real L1err=1;
+
+g1=(uf1-u1);
+g2=(uf2-u2);
+
+L2err = sqrt(int2d(Th)(square(uf1-u1)+square(uf2-u2))/Th.area);
+Linf = g1[].linfty+g2[].linfty;
+L1err = int2d(Th)(sqrt(square(uf1-u1))+sqrt(square(uf2-u2)))/Th.area;
+
+cout<< "Difference Freefem++ C++ L2 =" << L2err <<endl;
+cout<< "Difference Freefem++ C++ Linf =" << Linf <<endl;
+cout<< "Difference Freefem++ C++ L1 =" << L1err <<endl;
+
+plot([uf1,uf2],fill=0,cmm="C++",wait=1);
+plot([u1,u2],fill=0,cmm="Freefem++",wait=1);
+//plot(uf1,fill=0,cmm="C++",wait=1);
+plot(pf,fill=1,cmm="C++",wait=1);
+plot(p,fill=1,cmm="Freefem++",wait=1);

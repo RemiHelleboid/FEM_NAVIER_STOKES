@@ -1,0 +1,20 @@
+\babel@toc {french}{}
+\contentsline {section}{\numberline {1}Équations de Stokes et Navier-Stokes}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Équation de Navier-Stokes}{3}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}Notations}{3}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}Équation de conservation}{3}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.3}Seconde loi de Newton}{4}{subsubsection.1.1.3}%
+\contentsline {subsubsection}{\numberline {1.1.4}Tenseur de contrainte - Fluide Newtonien}{5}{subsubsection.1.1.4}%
+\contentsline {subsubsection}{\numberline {1.1.5}Fluide incompressible}{5}{subsubsection.1.1.5}%
+\contentsline {subsubsection}{\numberline {1.1.6}Condition initiale et aux bords}{6}{subsubsection.1.1.6}%
+\contentsline {subsection}{\numberline {1.2}Problème de Stokes}{6}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Formulation forte}{6}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}Formulation faible}{6}{subsubsection.1.2.2}%
+\contentsline {subsubsection}{\numberline {1.2.3}Espaces fonctionnels}{7}{subsubsection.1.2.3}%
+\contentsline {subsubsection}{\numberline {1.2.4}Réécriture sous forme de système linéaire}{8}{subsubsection.1.2.4}%
+\contentsline {section}{\numberline {2}Méthodes des caractéristiques}{8}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Discrétisation temporelle}{8}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Réécriture de Stokes sous forme de système linéaire discret (Système matrice vecteur)}{10}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Résolution numérique}{10}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Méthode de pénalisation}{10}{subsubsection.2.1.3}%
+\contentsline {section}{\numberline {3}Résultats}{11}{section.3}%

@@ -1,0 +1,9 @@
+// usage: FreeFem++ carre.edp -nn 10 
+include "getARGV.idp"
+int nn=getARGV("-nn",4);
+string sTh=getARGV("-Th","Th.msh");
+
+mesh Th=square(nn,nn);
+cout << " sauve msh dans : \"" << sTh << "\"" <<endl; 
+savemesh(Th,sTh);
+plot(Th,cmm=sTh);

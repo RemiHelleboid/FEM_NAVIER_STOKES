@@ -1,0 +1,28 @@
+include "getARGV.idp"
+string sTh=getARGV("-Th","Th.msh");
+verbosity=0;
+mesh Th(sTh); 
+fespace Vh(Th,P2);
+Vh u,v,up,uf;
+{
+	ifstream f("minsuf.txt");
+	for(int k=0; k<Th.nt;++k) 
+	for(int i=0; i<Vh.ndofK; ++i)
+	f >> uf[][Vh(k,i)];
+}
+ u=0; 
+func g = cos(x*pi)*cos(y*pi*2);
+real err;
+macro grad(u) [dx(u),dy(u)]//
+for(int iter=0; iter < 100; ++iter)
+{
+	up[]=u[];
+	solve Pb(u,v) = int2d(Th)(  grad(u)'*grad(v) / sqrt( 1+ grad(up)'*grad(up))) + on(1,2,3,4,u=g);
+	up[] -= u[];
+	err = up[].linfty;
+	cout << iter  << " " << err << " J = " <<  int2d(Th)(  sqrt( 1+ grad(u)'*grad(u))) << endl; 
+}
+cout  << " J = " <<  int2d(Th)(  sqrt( 1+ grad(u)'*grad(u))) << " " << int2d(Th)(  sqrt( 1+ grad(uf)'*grad(uf))) << endl; 
+
+plot(uf,cmm="uf",fill=1,wait=1);
+plot(uf,u,cmm="uf",fill=1,wait=1);

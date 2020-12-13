@@ -1,0 +1,35 @@
+\documentclass[12pt,twoside,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref} % Hyperref package for url's and [hidelinks] option to remove collouring
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=4cm]{geometry}
+\setlength\parindent{0pt}
+\begin{document}
+\input{titlepage}
+\tableofcontents
+
+\newpage
+
+\input{Section1}
+	
+
+\input{Section2}
+
+\input{Section3}
+
+
+\nocite{*}
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{FEM.bib} 
+HECHT, Frédéric. New development in FreeFem++. Journal of numerical mathematics, 2012, vol. 20, no 3-4, p. 251-266.
+
+
+
+\end{document}

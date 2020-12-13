@@ -1,0 +1,12 @@
+// Parameters
+int  S = 99;// wing label
+// u infty
+real theta = 8*pi/180;// // 1 degree on incidence =>  lift
+real lift = theta*0.151952/0.0872665; //  lift approximation formula
+real  uinfty1= cos(theta), uinfty2= sin(theta);
+// Mesh
+func naca12 = 0.17735*sqrt(x) - 0.075597*x - 0.212836*(x^2) + 0.17363*(x^3) - 0.06254*(x^4);
+border C(t=0., 2.*pi){x=5.*cos(t); y=5.*sin(t);}
+border Splus(t=0., 1.){x=t; y=naca12; label=S;}
+border Sminus(t=1., 0.){x=t; y=-naca12; label=S;}
+mesh Th = buildmesh(C(50) + Splus(70) + Sminus(70));

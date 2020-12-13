@@ -1,0 +1,27 @@
+
+// Parameters
+verbosity = 0;
+real D = 0.1;
+real H = 0.41;
+real cx0 = 0.2;
+real cy0 = 0.2; //center of cylinder
+real xa = 0.15;
+real ya = 0.2;
+real xe = 0.25;
+real ye = 0.2;
+int nn = 15;
+
+
+border fr1(t=0, 2.2){x=t; y=0; label=1;}
+border fr2(t=0, H){x=2.2; y=t; label=2;}
+border fr3(t=2.2, 0){x=t; y=H; label=1;}
+border fr4(t=H, 0){x=0; y=t; label=1;}
+border fr5(t=2*pi, 0){x=cx0+D*sin(t)/2; y=cy0+D*cos(t)/2; label=3;}
+mesh Th = buildmesh(fr1(5*nn) + fr2(nn) + fr3(5*nn) + fr4(nn) + fr5(-nn*3));
+
+plot(Th);
+savemesh(Th, "MeshRond.msh");
+savemesh(Th,"mesh.msh");
+
+load "iovtk"
+savevtk("Th.vtk",Th);

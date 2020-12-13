@@ -1,0 +1,129 @@
+\section{Méthodes des caractéristiques}
+\subsection{Discrétisation temporelle}
+
+On souhaite obtenir une solution numérique de l'équation \ref{SystNavStokes} sur l'intervalle de temps $[0, T]$, on prend donc $t_0 = 0$.
+On a déjà montré la formule pour la dérivée totale d'une fonction à deux variable qui dépendent du temps : 
+\begin{equation}
+\frac{D \varphi}{D t}=\frac{\partial \varphi}{\partial t}+(\mathbf{u} \cdot \nabla) \varphi
+\end{equation}
+Ou $\mathbf{u}$ est le champs de vitesse associé à la variable $\mathbf{x}(t)$.
+On définie la caractéristique de $\mathbf{x}(t)$ de la manière suivante : \\
+On note $X^{(n)}(\mathbf{x}(t)) \in \mathbb{R}^{3}$  la position dont provient la particule qui est en 
+$\mathbf{x}$ au temps $t_{n+1}$.
+Un schéma d'Euler d'ordre 1 nous donne donc : 
+\begin{equation}
+\frac{D \varphi}{D t}\left(t_{n+1}, \mathbf{x}\right)=\frac{\varphi\left(t_{n+1}, \mathbf{x}\right)-\varphi\left(t_{n}, X^{(n)}(\mathbf{x})\right)}{\Delta t}+\mathcal{O}(\Delta t)
+\end{equation}
+Soit, appliquée au champs de vitesse $\mathbf{u}$ : 
+\begin{equation}
+\frac{D \mathbf{u}}{D t}\left(t_{n+1}, \mathbf{x}\right)=\frac{\mathbf{u}\left(\mathbf{x}, t_{n+1}\right)-\mathbf{u}\left(X^{(n)}(\mathbf{x}), t_{n}\right)}{\Delta t}+\mathcal{O}(\Delta t)
+\end{equation}
+
+Donc on peut réécrire l'équation principale de Navier-Stokes : \ref{NavPrincipal} 
+
+\begin{equation}
+\rho\left(\frac{\mathbf{u}\left(\mathbf{x}, t_{n+1}\right)-\mathbf{u}\left(X^{(n)}(\mathbf{x}), t_{n}\right)}{\Delta t}\right)-\eta \Delta \mathbf{u} +\nabla p=\rho \mathbf{g}
+\end{equation}
+
+On note $\mathbf{u}^{n}$ l'approximation de $\mathbf{u}(n\Delta t, x) $, on a alors le schéma implicite suivant : \\
+
+\begin{equation}
+\frac{\rho}{\Delta t} \mathbf{u}^{(n+1)}-\eta \Delta \mathbf{u}^{(n+1)}+\nabla p^{(n+1)}=\rho \mathbf{g}+\frac{\rho}{\Delta t} \mathbf{u}^{(n)} \circ X^{(n)}
+\end{equation}
+
+Toujours avec : 
+\[div(\mathbf{u}^{(n+1)}) = 0\] 
+\[\mathbf{u}^{(n+1)} = \mathbf{u}_{\Gamma} \text { sur } \partial \Omega\]
+
+L'algorithme de résolution est donc le suivant : 
+
+\begin{enumerate}
+\item On se donne une solution initiale $\mathbf{u}^{(0)}$ qui respecte la condition de divergence nulle et la condition aux bords.
+\item On résout, en utilisant une méhode d'éléments finis l'équation : \begin{equation*}
+\frac{\rho}{\Delta t} \mathbf{u}^{(n+1)}-\eta \Delta \mathbf{u}^{(n+1)}+\nabla p^{(n+1)}=\rho \mathbf{g}+\frac{\rho}{\Delta t} \mathbf{u}^{(n)} \circ X^{(n)}
+\end{equation*}
+\[div(\mathbf{u}^{(n+1)}) = 0\] 
+\[\mathbf{u}^{(n+1)} = \mathbf{u}_{\Gamma} \text { sur } \partial \Omega\]
+\item On répète jusqu'à $n = \frac{T}{\Delta t}$.
+\end{enumerate}
+
+On se retrouve donc à devoir résoudre le problème de Stokes plusieurs fois. Or dans la section précédente on a déjà écris le système de Stokes sous sa forme faible elle même écrite avec applications linéaires 
+
+
+\subsubsection{Réécriture de Stokes sous forme de système linéaire discret (Système matrice vecteur)}
+
+Soient $X_{h} \subset H^{1}(\Omega)^{3}$ et $Q_{h} \subset L^{2}(\Omega)$ deux espaces vectoriels de dimension finie et soit $\mathbf{u}_{h, \Gamma}$ une approximation de $\mathbf{u}_{\Gamma},$ par exemple l'interpolée de Lagrange des données aux bords. Introduisons $V_{h},$ le sous espace de $X_{h}$ incluant les conditions aux limites :
+$$
+V_{h}\left(\mathbf{u}_{h, \Gamma}\right)=\left\{\mathbf{v}_{h} \in X_{h} ; \mathbf{v}_{h \mid \partial \Omega}=\mathbf{u}_{h, \Gamma}\right\}
+$$$$
+\begin{array}{l}
+(F V S)_{h}: \text { trouver } \mathbf{u}_{h} \in V_{h}\left(\mathbf{u}_{h, \Gamma}\right), p_{h} \in Q_{h} \text { et } \lambda \in \mathbb{R} \text { tels que } \\ 
+\\
+
+\qquad\left\{\begin{aligned}
+a\left(\mathbf{u}_{h}, \mathbf{v}_{h}\right)+b\left(\mathbf{v}_{h}, p_{h}\right) &=\left(\mathbf{f}, \mathbf{v}_{h}\right) \\
+b\left(\mathbf{u}_{h}, q_{h}\right) =0 
+\end{aligned}\right.
+\end{array}
+$$\\
+
+pour tout $\mathbf{v}_{h} \in V_{h}(0), q_{h} \in Q_{h}$ et $\mu \in \mathbb{R} .$ 
+
+\subsubsection{Résolution numérique}
+\begin{equation}
+\begin{aligned}
+A &=\left(A_{i j}\right), \quad i, j\in [1, \cdots, dim(V_{h})]^2 \\
+A_{i j}&=\int_{\Omega} \nabla \phi_{j} \cdot \nabla \phi_{i}\\
+\mathbf{B} &=\left(B x_{i j}, B y_{i j}\right), \quad  i\in[1, \cdots, dim(Q_{h})]   \quad j\in[1, \cdots, dim(V_{h})] \\
+ B x_{i j}&=-\int_{\Omega} \frac{\partial \phi_{j}}{ \partial x \varphi_{i}} \\
+ B y_{i j}&=-\int_{\Omega} \frac{\partial \phi_{j} }{\partial y \varphi_{i}} \\
+\end{aligned}
+\end{equation}
+
+On a alors le système linéaire : 
+\begin{equation}
+\left(\begin{array}{cc}
+\mathbf{A} & \mathbf{B}^{T} \\
+\mathbf{B} & 0
+\end{array}\right)\left(\begin{array}{c}
+\mathbf{U}_{h} \\
+\left\{p_{h}\right\}
+\end{array}\right)=\left(\begin{array}{c}
+\mathbf{F}_{h} \\
+0
+\end{array}\right)
+\end{equation}
+
+\subsubsection{Méthode de pénalisation}
+
+On utilise cette méthode pour avoir un meilleur système linéaire à résoudre, cela permet d'être sur que la méthode va converger vers une bonne solution et cela permet également que le système soit numériquement plus facile à résoudre.\\
+
+
+On cherche à résoudre : 
+
+\begin{equation}
+\begin{aligned}
+a\left(\mathbf{u}_{h}^{\epsilon}, \mathbf{v}_{h}\right)+b\left(\mathbf{v}_{h}, p_{h}^{\epsilon}\right) &=\left(\mathbf{f}, \mathbf{v}_{h}\right), \quad \forall \mathbf{v}_{h} \in \mathbf{V}_{h} \\
+b\left(\mathbf{u}_{h}^{\epsilon}, q_{h}\right)-\epsilon\left(p_{h}^{\epsilon}, q_{h}\right) &=0, \quad \forall q_{h} \in Q_{h}
+\end{aligned}
+\end{equation}
+
+Toujours avec : $(\mathbf{u}_{h}^{\epsilon}, p_{h}^{\epsilon}) \in V_h \times Q_h$\\
+
+
+Donc en écriture matricielle : 
+
+\begin{equation}
+\left(\begin{array}{cc}
+\mathbf{A} & B^{*} \\
+B & -\epsilon I
+\end{array}\right)\left(\begin{array}{c}
+\mathbf{U}_{h}^{\epsilon} \\
+\left\{p_{h}^{\epsilon}\right\}
+\end{array}\right)=\left(\begin{array}{c}
+\mathbf{F}_{h} \\
+0
+\end{array}\right)
+\end{equation}
+
+Il existe d'autre méthode pour résoudre le problème de Stokes mais on utilise toujours une méthode plus complexe que simplement résoudre (36).

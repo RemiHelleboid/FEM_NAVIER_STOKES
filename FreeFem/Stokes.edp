@@ -1,0 +1,33 @@
+// Parameters
+int nn = 16;
+
+// Mesh
+mesh Th = square(nn, nn);
+
+// Fespace
+fespace Uh(Th, P2);
+Uh u, v;
+Uh uu, vv;
+
+fespace Ph(Th, P1);
+Ph p, pp;
+
+// Problem
+solve stokes ([u, v, p], [uu, vv, pp])
+    = int2d(Th)(
+          dx(u)*dx(uu)
+        + dy(u)*dy(uu)
+        + dx(v)*dx(vv)
+        + dy(v)*dy(vv)
+        + dx(p)*uu
+        + dy(p)*vv
+        + pp*(dx(u) + dy(v))
+        - 1e-10*p*pp
+    )
+    + on(1, 2, 4, u=0, v=0)
+    + on(3, v=-1, u=0)
+    ;
+
+// Plot
+plot([u, v], p, wait=1);
+savemesh(Th, "Square.msh");

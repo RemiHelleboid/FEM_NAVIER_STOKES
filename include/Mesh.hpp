@@ -16,6 +16,7 @@ typedef vector<double> vect;
 
 class Mesh{
 	private:
+		unsigned int n_v_input_mesh; //Number of vertices
 		unsigned int n_v; //Number of vertices
 		unsigned int n_t; //Number of triangles
 		unsigned int n_s; //Number of bound edges
@@ -33,6 +34,7 @@ class Mesh{
 		void build_half_bridges();
 		int get_nt()const{return(n_t);};
 		int get_nv()const{return(n_v);};
+		int get_nv_input_mesh()const{return(n_v_input_mesh);};
 		int get_nbe()const{return(n_s);};
 		int get_nae()const{return(n_e);};
 		Triangle get_triangle(int k)const{return(Triangles[k]);};	//retourne le k-ieme triangle

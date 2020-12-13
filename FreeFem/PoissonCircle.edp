@@ -1,9 +1,13 @@
-border Gamma1(t=0., 2*pi){x=cos(t); y=sin(t);}
-mesh Th = buildmesh(Gamma1(30));
+border Gamma1(t=0., pi){x=cos(t); y=sin(t);}
+border Gamma2(t=pi, 2*pi){x=cos(t); y=sin(t);}
+int N = 6;
+mesh Th = buildmesh(Gamma1(N)+Gamma2(N));
 
+
+func phiexact = -x*x - y*y + 1 ;
 // Fespace
 fespace Vh(Th, P1); //P1 conforming triangular FEM
-Vh phi, w, f=1;
+Vh phi, w, f=4;
 
 // Solve
 solve Laplace(phi, w)
@@ -15,14 +19,16 @@ solve Laplace(phi, w)
           f*w
     )
     + on(Gamma1, phi=0)
+    + on(Gamma2, phi=0)
     ;
-cout<<phi[]<<endl;;
 
+
+real L2error = sqrt(int2d(Th)((phi-phiexact)^2));
+cout<<"L2 error  "<<L2error<<endl;
 // Plot
 plot([phi], wait=true, ps="membrane.eps"); //Plot phi
 plot(Th, wait=true, ps="membraneTh.eps"); //Plot Th
 
 
-
 // Save mesh
-savemesh(Th,"Th.msh");
+savemesh(Th,"Circle.msh");

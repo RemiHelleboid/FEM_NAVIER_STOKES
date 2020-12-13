@@ -1,62 +1,71 @@
-real L = 5.0;
-real xjump = 1.0;
-real rjump = xjump / L ; //Relative position of the bound
+// Parameters
+real R = 1.2;
+real L = 15.;
 
+real nu = 1./1.;
+real nufinal = 1/2000.;
+real cnu = 0.5;
 
-border High(t=0, 1){x = t * L; y = 1; label=1;} //Haut du fleuve
-border Lowend(t=rjump, 1){x = t * L; y = 0; label=1;}  //Bas bas
-border Lowbeg(t=0, rjump){x = t * L; y = 0.5; label=1;}  //Bas haut
-border Leftup(t=0.5, 1){x = 0; y = t; label=1;}  //Gauche haut
-border Leftdown(t=0, 0.5){x = xjump; y = t; label=1;} // Gauche bas
-border Right(t=0, 1){x = L; y = t; label=2 ;}  //Droite
+real eps = 1e-4;
 
-int N = 20; //Mesh precision parameter
+verbosity = 0;
 
-mesh ThFleuve = buildmesh( High(-N*L) + Lowend(N*L) + Lowbeg(8*N) + Leftup(-N) + Leftdown(-8*N) + Right(N) );
-savemesh(ThFleuve, "meshFleuve.msh");
-plot(ThFleuve);
+// Mesh
+border cc11(t=0, 2*pi){x=cos(t)/20+6.; y=sin(t)/20+0.25; label=1;}
+border cc12(t=0, 2*pi){x=cos(t)/20+6.; y=sin(t)/20+0.5; label=1;}
+border cc13(t=0, 2*pi){x=cos(t)/20+6.; y=sin(t)/20+0.75; label=1;}
+border cc14(t=0, 2*pi){x=cos(t)/20+6.; y=sin(t)/20+1.0; label=1;}
+border cc21(t=0, 2*pi){x=cos(t)/20+6.; y=sin(t)/20-0.25; label=1;}
+border cc22(t=0, 2*pi){x=cos(t)/20+6.; y=sin(t)/20-0.5; label=1;}
+border cc23(t=0, 2*pi){x=cos(t)/20+6.; y=sin(t)/20-0.75; label=1;}
+border cc24(t=0, 2*pi){x=cos(t)/20+6.; y=sin(t)/20-1.0; label=1;}
+border CC(t=0, 2*pi){x=cos(t)/5+5.5; y=sin(t)/5; label=1;}
+border ce(t=-R, R){x=0; y=t; label=1;}
+border beb(tt=0, 1){real t=tt^1; x=t*L; y=-R; label=1;}
+border beu(tt=1, 0){real t=tt^1; x=t*L; y=R; label=1;}
+border beo(t=-R, R){x=L; y=t; label=0;}
 
+int N=2;
+mesh Th = buildmesh(ce(-5*N) + cc11(-5*N) + cc12(-5*N) +cc13(-5*N) + cc14(-5*N) +cc21(-5*N)
++ cc22(-5*N) +cc23(-5*N) + cc24(-5*N) + beb(200*N) + beu(200*N) + beo(5*N) + CC(-10*N));
+plot(Th);
+savemesh(Th, "RCWA.msh");
+//bounding box for the plot
+func bb = [[-1,-2],[4,2]];
 
-// Finite elements space for velocity
-fespace Xh(ThFleuve, P2);
+// Fespace
+fespace Xh(Th, P2);
 Xh u1, u2;
-Xh v1, v2;
-Xh du1, du2;
-Xh u1p, u2p;
+Xh v1,v2;
+Xh du1,du2;
+Xh u1p,u2p;
 
-
-// Finite elements space for pression
-fespace Mh(ThFleuve,P1);
+fespace Mh(Th,P1);
 Mh p;
 Mh q;
 Mh dp;
 Mh pp;
 
 // Macro
-macro Grad(u1, u2) [dx(u1), dy(u1), dx(u2),dy(u2)] //
-macro UgradV(u1, u2, v1, v2) [	[u1,u2]'*[dx(v1),dy(v1)],
-								[u1,u2]'*[dx(v2),dy(v2)]	] //
-macro div(u1, u2) (dx(u1) + dy(u2)) //
+macro Grad(u1,u2) [dx(u1), dy(u1), dx(u2),dy(u2)] //
+macro UgradV(u1,u2,v1,v2) [[u1,u2]'*[dx(v1),dy(v1)],
+                        [u1,u2]'*[dx(v2),dy(v2)]] //
+macro div(u1,u2) (dx(u1) + dy(u2)) //
 
-
-real nu = 1;
-real nufinal = 1/1000.;
-real cnu = 0.25;
-real eps = 1.0;
-
-// Initial condition
-u1 = x<1; 
+// Initialization
+u1 = x<1;
 u2 = 0;
 
 // Viscosity loop
 while(1){
     int n;
+	int nuepoch=0;
     real err=0;
     // Newton loop
     for (n = 0; n < 15; n++){
         // Newton
         solve Oseen ([du1, du2, dp], [v1, v2, q])
-            = int2d(ThFleuve)(
+            = int2d(Th)(
                     nu * (Grad(du1,du2)' * Grad(v1,v2))
                 + UgradV(du1,du2, u1, u2)' * [v1,v2]
                 + UgradV( u1, u2,du1,du2)' * [v1,v2]
@@ -64,13 +73,14 @@ while(1){
                 - div(v1,v2) * dp
                 - 1e-8*dp*q //stabilization term
             )
-            - int2d(ThFleuve) (
+            - int2d(Th) (
                     nu * (Grad(u1,u2)' * Grad(v1,v2))
                 + UgradV(u1,u2, u1, u2)' * [v1,v2]
                 - div(u1,u2) * q
                 - div(v1,v2) * p
             )
-            + on(1, du1=0, du2=0) ;
+            + on(1, du1=0, du2=0)
+            ;
 
         u1[] -= du1[];
         u2[] -= du2[];
@@ -86,7 +96,12 @@ while(1){
 
     if(err < eps){  //converge: decrease $\nu$ (more difficult)
         // Plot
-        plot([u1, u2], p, wait=1, cmm=" rey = " + 1./nu , coef=0.3);
+		nuepoch += 1;
+        plot([u1, u2], wait=1, cmm=" rey = " + 1./nu , coef=0.3);
+		load "iovtk"
+		int[int] Order = [1];
+		string DataName = "u";
+		savevtk("NavierStokes"+nuepoch+".vtu", Th, [u1, u2], dataname=DataName, order=Order);
 
         // Change nu
         if( nu == nufinal) break;
@@ -97,6 +112,7 @@ while(1){
         u1p = u1;
         u2p = u2;
         pp = p;
+
     }
     else{   //blowup: increase $\nu$ (more simple)
         assert(cnu< 0.95); //the method finally blowup

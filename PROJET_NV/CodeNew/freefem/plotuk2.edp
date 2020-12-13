@@ -1,0 +1,26 @@
+
+include "getARGV.idp"
+string sTh=getARGV("-Th","Th.msh");
+mesh Th(sTh); 
+fespace Vh(Th,P2);
+Vh u,v,uf;
+{
+	ifstream f("uk2.txt");
+	for(int k=0; k<Th.nt;++k) 
+	for(int i=0; i<Vh.ndofK; ++i)
+	f >> uf[][Vh(k,i)];
+}
+macro grad(u) [dx(u),dy(u)] //
+varf Pb(u,v) = int2d(Th)(grad(u)'*grad(v)) + int2d(Th)(1.*v) +on(2,u=2);
+matrix A = Pb(Vh,Vh,solver=UMFPACK);
+real[int] b=Pb(0,Vh);
+u[]=A^-1*b;  
+
+cout << " u = " << u[].min <<  " " << u[].max << endl; 
+cout << " uf=" <<  uf[].min <<  " " << uf[].max << endl; 
+u[] -= uf[]; 
+cout << u[].min <<  " " << u[].max << endl; 
+
+
+plot(u,fill=0,cmm=" diff",wait=1);
+plot(uf,fill=0,cmm="uf",wait=1);

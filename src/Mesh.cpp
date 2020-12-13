@@ -54,6 +54,7 @@ Mesh::Mesh(string filename){
 		Edge E(label, E_vertices);
 		BoundEdges[l] = E;
 	}
+	n_v_input_mesh = n_v;
 	meshfile.close();
 	build_edges();
 }
@@ -120,12 +121,15 @@ void Mesh::build_half_bridges(){
 		for(int i=0; i<3; i++){				//boucle sur les sommet
 			Edge E_opp_i = T_k.edge_opp(i);
 			Vertice V_half_i = E_opp_i.Compute_middle();
-			int label_half_i = E_opp_i.get_label();
 
-			V_half_i.set_label(label_half_i);
 			if (!count(Vertices.begin(), Vertices.end(), V_half_i)){
 				V_half_i.set_index(n_v);
-				int new_label = int( E_opp_i.get_vertices()[0].get_label() == 1 && E_opp_i.get_vertices()[1].get_label()==1 );
+				int new_label = int( E_opp_i.get_vertices()[0].get_label() != 0 && E_opp_i.get_vertices()[1].get_label() != 0 );
+				//cout<<"MEsh new lab"<<new_label<<endl;
+				if (count(BoundEdges.begin(), BoundEdges.end(), E_opp_i)){
+					E_opp_i.set_label(1);
+				}
+				new_label = int( E_opp_i.get_vertices()[0].get_label() != 0 && E_opp_i.get_vertices()[1].get_label() != 0 );
 				V_half_i.set_label(new_label);
 				Vertices.push_back(V_half_i);
 				V_half_Tk.push_back(V_half_i);
@@ -146,6 +150,7 @@ void Mesh::build_half_bridges(){
 		set_triangle(k, T_k);
 		}
 	}
+
 	cout<<"n__________v  "<<n_v<<endl;
 
 }

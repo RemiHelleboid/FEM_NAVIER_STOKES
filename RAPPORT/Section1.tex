@@ -1,0 +1,261 @@
+\section{Équations de Stokes et Navier-Stokes}
+
+\subsection{Équation de Navier-Stokes}
+\subsubsection{Notations}
+Soit $\Omega$ un ouvert de $\mathbf{R}^2$ ou $\mathbf{R}^3 $. \\
+On note $\rho(t, \textbf{x})$ la densité du fluide au point $\textbf{x} \in \Omega$ et au temps $t$.\\
+Et $\textbf{u}(t, \textbf{x})$ le vecteur vitesse du fluide au point $\textbf{x}$ et au temps $t$. \\
+$\textbf{n}(\textbf{x}) $ est le vecteur normal sortant de l’interface considéré.\\
+$\mathbf{F}$ désigne une force s'appliquant au fluide. \\
+$\mathbf{a}(t, \mathbf{x})$ est l'accélération du fluide au point $\textbf{x}$ et au temps $t$. \\
+\subsubsection{Équation de conservation}
+On fait l'hypothèse que la masse du fluide est toujours conservée. La masse du fluide est égale à la densité volumique multipliée par le volume, autrement dit c'est l'intégrale sur un volume (ou une surface) $\mathcal{V}$ de la densité $\rho(\cdot, t)$.
+Sa conservation signifie que la variation de la masse dans $\mathcal{V}$ est strictement égale à la somme de ce qui entre dans le volume $\mathcal{V}$ et de ce qui en sort.
+Or à l'interface du $\mathcal{V}$, la masse de fluide sortant (ou entrant) est égale à la vitesse du fluide projeté sur le vecteur sortant de la surface, multiplié par sa densité, le tout multiplié par la source totale de l'interface de $\mathcal{V}$.
+Si on fait un raisonnement par grandeur on obtient que la variation de masse est en :
+$\left[ kg.m^{-3} \cdot m.s^{-1} \cdot m^2 \right] = \left[ kg.s^{-1} \right] $ ce qui correspond bien à une variation temporelle de masse.
+On peut donc écrire en termes mathématiques : 
+
+\begin{equation}\label{MassCons}
+\frac{d}{d t}\left(\int_{\mathcal{V}} \rho(t, \mathbf{x}) \mathrm{d} x\right)=-\int_{\partial \mathcal{V}} \rho(t, \mathbf{x}) \mathbf{u}(t, \mathbf{x}) \cdot \mathbf{n}(\mathbf{x}) \mathrm{d}s
+\end{equation}
+
+On peut appliquer la formule de Stokes : 
+\begin{equation}\label{StokesFormula}
+\int_{\partial \mathcal{V}} \mathbf{v} \cdot \mathbf{n} \mathrm{d} s=\int_{\mathcal{V}} \operatorname{div} \mathbf{v} \mathrm{d} x
+\end{equation}
+
+au second membre de l'équation \ref{MassCons}, pour obtenir : 
+\begin{equation}
+\int_{\mathcal{V}} \frac{\partial\rho}{\partial t} + div(\rho \mathbf{u}) \mathrm{d} x = 0
+\end{equation}
+
+Considérant que les fonctions sont assez régulière on a également effectué une permutation d'intégrale et de dérivée dans le membre de gauche.
+
+Comme $\mathcal{V}$ est quelconque on peut se ramener à une expression locale : 
+\begin{equation}\label{MassConsLoc}
+\frac{\partial\rho}{\partial t} + div(\rho \mathbf{u})  = 0 
+\end{equation}
+Pour tout $t \in [0, T] $ et $x \in \Omega$.
+
+\subsubsection{Seconde loi de Newton}
+La seconde loi de Newton nous dit que :
+\[\sum \mathbf{F} = m \mathbf{a}\]
+
+On écrit d'abord l'accélération :
+
+\begin{equation}
+\begin{aligned}
+\mathbf{a}(t, \mathbf{x}) &=\lim _{\delta t \rightarrow 0} \frac{\mathbf{u}\left(t+\delta t, \mathbf{x}+\mathbf{u}(t, \mathbf{x}) \delta t+\mathcal{O}\left(\delta t^{2}\right)\right)-\mathbf{u}(t, \mathbf{x})}{\delta t} \\
+&=\left(\frac{\partial \mathbf{u}}{\partial t}+\mathbf{u} \cdot \nabla \mathbf{u}\right)(t, \mathbf{x})
+\end{aligned}
+\end{equation}
+En effet au temps $t + \delta t$ le fluide se sera déplacé dans la direction de sa vitesse et d'une longer égale à $\mathbf{u}\times \delta t$.
+
+
+Maintenant, intéressons nous aux forces que subit le fluide. 
+On en retiens généralement 2 : la force de gravité et les forces internes aux fluide qu'il exècre sur lui même.
+
+La force de gravité : $\mathbf{F} = m \mathbf{g} = \rho V \mathbf{g}$, si on intègre sur notre volume $\mathcal{V}$, on obtient : 
+\begin{equation}
+\int_{\mathcal{V}} \rho(t, \mathbf{x}) \mathbf{g} \mathrm{d} x
+\end{equation}
+
+On écrit maintenant la force interne du fluide sur lui même : 
+\begin{equation}
+\int_{\partial \mathcal{V}} \sigma_{\mathrm{tot}}(t, \mathbf{x}) \mathbf{n}(\mathbf{x}) \mathrm{d} s
+\end{equation}
+avec $\sigma_{\mathrm{tot}}(t, \mathbf{x})$ le tenseur des contraintes du fluide.\\ C'est un tenseur d'ordre 2, donc pour nous une matrice $3\times3$ dans $\mathbf{R}^3$, $2\times2$ dans $\mathbf{R}^2$ qui est toujours symétrique.
+Sa divergence est définie comme le vecteur dont les 3 composantes sont les divergences des vecteurs lignes du tenseur.
+
+Finalement on a donc : 
+
+\begin{equation}
+\int_{\mathcal{V}} \rho(t, \mathbf{x})\left(\frac{\partial \mathbf{u}}{\partial t}+\mathbf{u} \cdot \nabla \mathbf{u}\right)(t, \mathbf{x}) \mathrm{d} x=\int_{\mathcal{V}} \rho(t, \mathbf{x}) \mathbf{g} \mathrm{d} x+\int_{\partial \mathcal{V}} \sigma_{\mathrm{tot}}(t, \mathbf{x}) \mathbf{n}(\mathbf{x}) \mathrm{d} s
+\end{equation}
+
+Comme précédemment on applique le théorème de Stokes au deuxième terme du second membre de l'égalité.
+\[\int_{\partial \mathcal{V}} \sigma_{\mathrm{tot}}(t, \mathbf{x}) \mathbf{n}(\mathbf{x}) \mathrm{d} s  = \int_{\mathcal{V}} div(\sigma_{\mathrm{tot}}) \mathrm{d} x \]
+
+D'où l'équation intégrale de la seconde loi de Newton appliquée au fluide : 
+\begin{equation}
+\int_{\mathcal{V}} \rho(t, \mathbf{x})\left(\frac{\partial \mathbf{u}}{\partial t}+\mathbf{u} \cdot \nabla \mathbf{u}\right)(t, \mathbf{x}) - div(\sigma_{\mathrm{tot}}) - \rho \mathbf{g} \, \, \mathrm{d} x = 0
+\end{equation}
+Par le même raisonnement que précédemment, on peut écrire une version locale :
+ \begin{equation}\label{PreNav}
+\rho(t, \mathbf{x})\left(\frac{\partial \mathbf{u}}{\partial t}+\mathbf{u} \cdot \nabla \mathbf{u}\right)(t, \mathbf{x}) - div(\sigma_{\mathrm{tot}}) - \rho \mathbf{g}  = 0
+\end{equation}
+
+\subsubsection{Tenseur de contrainte - Fluide Newtonien}
+
+Un tenseur $\sigma$ peut être décomposée en 2 partie : 
+\begin{equation}
+\sigma = \underbrace{\left(\frac{1}{3} tr(\sigma)\right)}_{\text{Partie sphérique}}\times I_3+ \underbrace{\left(\sigma -  \frac{1}{3} tr(\sigma) \right)}_{\text{Partie déviatrice}}I_3
+\end{equation}
+
+Or on a un lien, pour les fluides isotropes, entre la pression hydrostatique et la parite sphérique du tenseur de contraintes : 
+
+\begin{equation}
+p = -\frac{tr(\sigma)}{3}
+\end{equation}
+
+On fait maintenant une autre hypothèse : le fluide est Newtonien. Cela signifie que la relation entre la vitesse de déformation et les contraintes du tenseur déviateur est linéaire.
+
+cela ce traduit mathématiquement par : 
+\begin{equation}\label{Tensor}
+\underbrace{\left(\sigma -  \frac{1}{3} tr(\sigma) \right)}_{\text{Partie déviatrice}}I_3 = 2 \eta D(u) - \frac{2 \eta}{3}div(\mathbf{u})I_3
+\end{equation}
+$D(u)$e est le symétrisé du gradient de u : 
+\begin{equation}
+D(u) = \frac{\nabla u + \nabla u^T}{2}
+\end{equation}
+
+\subsubsection{Fluide incompressible}
+On fait une dernière hypothèse, qui est que le fluide est incompressible, c'est à dire que la densité est constante dans le temps et l'espace, si on reprend l'équation \ref{MassConsLoc}, on obtient : 
+
+\begin{equation}\label{Divnul}
+\begin{aligned}
+&\frac{\partial\rho}{\partial t} = -div(\rho \mathbf{u})  \\
+\implies  & 0 = - \rho div(u) \\
+\implies  & div(u) = 0 \\
+\end{aligned}
+\end{equation}
+On dit que le champs de vitesse est à divergence nulle.
+
+On remarque immédiatement que le dernier terme de l'équation \ref{Tensor} est nulle.
+On a donc : 
+\begin{equation}
+\sigma_{\mathrm{tot}} = 2\eta D(u)
+\end{equation}
+
+Si on reprend l'équation \ref{PreNav} avec les nouvelles simplifications, on obtient : 
+\begin{equation}
+\rho\left(\frac{\partial \mathbf{u}}{\partial t}+\mathbf{u} \cdot \nabla \mathbf{u}\right)-\operatorname{div}(2 \eta D(\mathbf{u}))+\nabla p=\rho \mathbf{g}
+\end{equation}
+
+Enfin, on utilise l'identité suivante : 
+\[\operatorname{div}(2D(\mathbf{u})) = \Delta \mathbf{u} + \nabla(\operatorname{div}(\mathbf{u}))\]
+On a alors : 
+\begin{equation}\label{NavPrincipal}
+\rho\left(\frac{\partial \mathbf{u}}{\partial t}+\mathbf{u} \cdot \nabla \mathbf{u}\right)-\eta \Delta \mathbf{u} +\nabla p=\rho \mathbf{g}
+\end{equation}
+
+C'est l'équation principale de Navier-Stokes pour un fluide Newtonien, isotrope et incompressible.
+On ajoute l'équation \ref{Divnul} pour avoir l’incompressibilité.
+\subsubsection{Condition initiale et aux bords}
+
+Étant donné que le problème de Navier-Stokes est un problème d'évolution, il faut se donner une condition initiale, c'est à dire connaître $\mathbf{u}$ au temps initiale $t_0$, appelons cette fonction $\mathbf{u}_0$.
+
+Nous nous sommes donné un ouvert $\Omega$ dans lequel le problème est posé, il est donc nécessaire d'indiquer le comportement du fluide aux bord de $\Omega$, on not $\mathbf{u}_{\Gamma}$ cette fonction définie sur $\partial \Omega$.
+
+On peut alors énoncer le Système de Navier-Stokes : 
+
+\begin{equation}\label{SystNavStokes}
+\left\{\begin{aligned}
+\rho\left(\frac{\partial \mathbf{u}}{\partial t}+\mathbf{u} \cdot \nabla \mathbf{u}\right)-\eta \Delta \mathbf{u}+\nabla p &=\rho \mathbf{g} \text { dans }] 0, T[\times \Omega\\
+-\operatorname{div}(\mathbf{u})&=0 \quad \text { dans }] 0, T[\times \Omega\\
+\mathbf{u}(t=t_0) &=\mathbf{u}_{0} \text { dans } \Omega \\
+\mathbf{u} &=\mathbf{u}_{\Gamma} \text { sur }] 0, T[\times \partial \Omega
+\end{aligned}\right.
+\end{equation}
+
+\subsection{Problème de Stokes}
+\subsubsection{Formulation forte}
+Si on néglige le terme non linéaire $\mathbf{u} \cdot \nabla \mathbf{u}$ de l'équation de Navier-Stokes, on obtient l'équation de Stokes. Lorsque l'écoulement du fluide est lent, autrement dit quand le nombre de Reynolds est faible (inférieur à 1), alors cette approximation est valide. 
+Le système de Stokes stationnaire générale s'écrit donc : 
+\begin{equation}
+\left\{\begin{aligned}
+\alpha \mathbf{u}-\eta \Delta \mathbf{u}+\nabla p &=& \rho \mathbf{g} & \text { dans } \Omega \\
+-\operatorname{div} \mathbf{u}  &=&0 & \text { dans } \Omega \\
+\mathbf{u} &=& \mathbf{u}_{\Gamma} & \text { sur } \partial \Omega
+\end{aligned}\right.
+\end{equation}
+On verra que l'on prend cette formulation en particulier car elle est utile pour résoudre le problème de Navier-Stokes par la méthode des caractéristiques.
+
+\subsubsection{Formulation faible}
+La résolution d'une équation différentielle par une méthode de type éléments fini commence toujours par la formulation faible de l'équation à résoudre.
+On se donne donc une fonction test $\mathbf{v}$, on précisera dans quel espace fonctionnelle on prend cette fonction. Disons pour l'instant que la fonction est suffisamment régulière pour effectuer les opérations de dérivation et d'intégrations qui suivent. \\
+On a donc : 
+\begin{equation}
+\int_{\Omega} \alpha \mathbf{u} \cdot \mathbf{v} \mathrm{d} x-\int_{\Omega} \eta \Delta \mathbf{u}\cdot \mathbf{v} \mathrm{d} x+\int_{\Omega} \nabla p \cdot \mathbf{v} \mathrm{d} x=\int_{\Omega} \rho  \mathbf{g}. \mathbf{v} \mathrm{d} x
+\end{equation}
+Et, en prenant une deuxième fonction test, $q$ : 
+\begin{equation}
+\int_{\Omega} q \operatorname{div} (\mathbf{u}) \mathrm{d} x = 0
+\end{equation}
+Premièrement, en appliquant la formule de Stokes \ref{StokesFormula} au produit $q \mathbf{v}$, on obtient : 
+\begin{equation}
+\int_{\Omega} \nabla q \cdot \mathbf{v}=-\int_{\Omega} q \operatorname{div}(\mathbf{v})+\int_{\partial \Omega} q \mathbf{v} \cdot \mathbf{n}
+\end{equation}
+Donc si on prend q = p, on a simplement : 
+\begin{equation}
+\int_{\Omega} \nabla p \cdot \mathbf{v}=-\int_{\Omega} p \operatorname{div}(\mathbf{v})+\int_{\partial \Omega} p \mathbf{v} \cdot \mathbf{n}
+\end{equation}
+
+Deuxièmement, en prenant $q=v_i$ et $\mathbf{v}$ par $\sigma_i$, on a, toujours par la formule de Stokes : 
+
+\begin{equation}
+\begin{aligned}
+-\eta \int_{\Omega} \Delta \mathbf{u} \cdot \mathbf{v}dx &=\eta \int_{\Omega}\left(\nabla u_{1} \nabla v_{1}+\nabla u_{2} \nabla v_{2}\right)dx-\eta \int_{\partial \Omega}\left(v_{1}+v_{2}\right)\left(\nabla u_{1}+\nabla u_{2}\right) \cdot \mathbf{n} ds \\
+&=\eta \int_{\Omega} \nabla \mathbf{u} \cdot \nabla \mathbf{v}dx-\eta \int_{\partial \Omega}\left(v_{1}+v_{2}\right)\left(\nabla u_{1}+\nabla u_{2}\right) \cdot \mathbf{n}ds
+\end{aligned}
+\end{equation}
+ 
+ \subsubsection{Espaces fonctionnels}
+On se demande quels sont les meilleurs espaces de fonctions dans lesquels prendre chercher la solution $(\mathbf{u}, p)$ et les fonctions tests $\mathbf{v}$ et $q$. Le but étant que les intégrales précédentes aient du sens, et que les espaces et les meilleurs propriétés possibles en terme de topologie etc.\\
+
+Pour p, on prend l'espace des fonctions de carré intégrable et de moyenne nulle : 
+\[
+L_{0}^{2}(\Omega)=\left\{q \in L^{2}(\Omega) ; \int_{\Omega} q(x) \mathrm{d} x=0\right\}
+\]
+On ajoute la condition de moyenne nulle pour avoir unicité sur la pression, sinon elle ne serait unique qu'à une constante près.
+
+Pour $\mathbf{u}$ et $\mathbf{v}$, on doit pouvoir au moins écrire la dérivée faible des fonctions, on part donc de l'espace de Sobolev $H^1$ : 
+
+\begin{equation}
+H^{1}(\Omega)=\left\{\varphi \in L^{2}(\Omega) ; \nabla \varphi \in L^{2}(\Omega)^{3}\right\}
+\end{equation}
+
+Pour u, on réstreint cet espace aux fonctions qui vérifie la condition aux bord :
+\[H^{1}_{\Gamma}(\Omega)
+\left\{\mathbf{v} \in H^{1}(\Omega)^{3} \mid \mathbf{v}=\mathbf{u}_{\Gamma} \operatorname{sur}\partial \Omega\right \}
+\]
+ 
+Et pour $\mathbf{v}$ on réstreint aux fonctions nulles sur le bord : 
+
+\[H^{1}_{0}(\Omega)
+\left\{\mathbf{v} \in H^{1}(\Omega)^{3} \mid \mathbf{v}=0 \operatorname{sur}\partial \Omega\right \}
+\]
+
+On a donc notre formulation faible finale : \\
+Trouver $(\mathbf{u}, p) \in H^{1}_{\Gamma}(\Omega) \times L_{0}^{2}(\Omega)$ telle que pour tout 
+$(\mathbf{v}, q) \in H^{1}_{0}(\Omega) \times L_{0}^{2}(\Omega)$, on ait : 
+
+\begin{equation}
+\begin{aligned}
+\int_{\Omega}\alpha \mathbf{u} \cdot \mathbf{v}-\nabla \mathbf{u} \cdot \nabla \mathbf{v} \mathrm{d} x-& \int_{\Omega} p \operatorname{div}( \mathbf{v}) \mathrm{d} x=\int_{\Omega} \mathbf{f} \cdot \mathbf{v} \mathrm{d} x\\
+&-\int_{\Omega} q \operatorname{div}( \mathbf{u}) \mathrm{d} x=0
+\end{aligned}
+\end{equation}
+
+\subsubsection{Réécriture sous forme de système linéaire}
+On introduit les opérateurs linéaires et bi-linéaires suivants : 
+\begin{equation}
+\begin{aligned}
+a(\mathbf{u}, \mathbf{v}) &=\int_{\Omega}( \mathbf{u} \cdot \mathbf{v}-\eta \nabla \mathbf{u} \cdot \nabla \mathbf{v} ) \mathrm{d} x \\
+b(\mathbf{v}, q) &=-\int_{\Omega} p \operatorname{div} (\mathbf{v}) \mathrm{d} x \\
+l(\mathbf{v}) &=\int_{\Omega} \mathbf{f} \cdot \mathbf{v} \mathrm{d} x
+\end{aligned}
+\end{equation}
+
+Le système de Stokes se réécrit alors : \\
+Trouver $(\mathbf{u}, p) \in H^{1}_{\Gamma}(\Omega) \times L_{0}^{2}(\Omega)$ telle que pour tout 
+$(\mathbf{v}, q) \in H^{1}_{0}(\Omega) \times L_{0}^{2}(\Omega)$, on ait : 
+
+\begin{equation}
+\left\{\begin{aligned}
+a(\mathbf{u}, \mathbf{v})+b(\mathbf{v}, p) &=l(\mathbf{v}) \\
+b(\mathbf{u}, q) &=0
+\end{aligned}\right.
+\end{equation}
+
